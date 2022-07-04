@@ -152,29 +152,29 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 # STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
+# STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
 ...
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-AWS_ACCESS_KEY_ID='PW4CHPZEZWXY7ONTLYBQ'
-AWS_SECRET_ACCESS_KEY='UF+V7iCWefJwMxC6F6uWAIiu4OQ3M2Lb40Cmewy8MQo'
-AWS_STORAGE_BUCKET_NAME = 'nwoaffl'
-AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
-AWS_LOCATION = 'https://nwoaffl.nyc3.digitaloceanspaces.com'
+AWS_ACCESS_KEY_ID='AKIA4VGPN3HMPGNFFKXN'
+AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME = 'nwoaffl-static'
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400',}
+AWS_LOCATION = 'static'
+AWS_S3_REGION_NAME='us-east-1'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'ffredux/static'),
-]
-STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
-
-# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ffredux/static'),]
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# FROM AWS S3
+# ACCESS KEY = AKIA4VGPN3HMPGNFFKXN
+# SECRET KEY = 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
