@@ -31,8 +31,8 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 # DEBUG = os.getenv("DEBUG",False) == True
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1,localhost").split(",")
-
+# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = ["sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhost"]
 
 # Application definition
 # test
@@ -79,28 +79,41 @@ WSGI_APPLICATION = 'ffredux.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-if os.getenv("DATABASE_URL","") != "":
-    r = urlparse(os.environ.get("DATABASE_URL"))
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql_psycopg2",
-            "NAME": os.path.relpath(r.path,"/"),
-            "USER": r.username,
-            "PASSWORD": r.password,
-            "HOST": r.hostname,
-            "PORT": r.port,
-            "OPTIONS": {"sslmode":"require"},
+# if os.getenv("DATABASE_URL","") != "":
+#     r = urlparse(os.environ.get("DATABASE_URL"))
+#     DATABASES = {
+#         "default": {
+#             "ENGINE": "django.db.backends.postgresql_psycopg2",
+#             "NAME": os.path.relpath(r.path,"/"),
+#             "USER": r.username,
+#             "PASSWORD": r.password,
+#             "HOST": r.hostname,
+#             "PORT": r.port,
+#             "OPTIONS": {"sslmode":"require"},
 
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 
+
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "db",
+        "USER": "db",
+        "PASSWORD": "AVNS_ACtAEacjkbZM9SDoUXn",
+        "HOST": "app-59423da4-d3ac-4d59-83fc-32b9f928e1bf-do-user-11866930-0.b.db.ondigitalocean.com",
+        "PORT": "25060",
+        "OPTIONS": {"sslmode":"require"},
+
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
