@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +62,7 @@ ROOT_URLCONF = 'ffredux.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'mysite/templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,12 +96,12 @@ WSGI_APPLICATION = 'ffredux.wsgi.application'
 #         }
 #     }
 # else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
+# }
 
 
 DATABASES = {
@@ -149,8 +151,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
+# STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,"staticfiles")
+...
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+
+AWS_ACCESS_KEY_ID='PW4CHPZEZWXY7ONTLYBQ'
+AWS_SECRET_ACCESS_KEY='UF+V7iCWefJwMxC6F6uWAIiu4OQ3M2Lb40Cmewy8MQo'
+AWS_STORAGE_BUCKET_NAME = 'nwoaffl'
+AWS_S3_ENDPOINT_URL = 'https://nyc3.digitaloceanspaces.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+AWS_LOCATION = 'https://nwoaffl.nyc3.digitaloceanspaces.com'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'ffredux/static'),
+]
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
+
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
