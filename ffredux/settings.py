@@ -157,8 +157,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-AWS_ACCESS_KEY_ID='AKIA4VGPN3HMPGNFFKXN'
-AWS_SECRET_ACCESS_KEY='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'
+AWS_ACCESS_KEY_ID=os.getenv('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=os.getenv('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'nwoaffl-static'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400',}
@@ -174,7 +174,3 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# FROM AWS S3
-# ACCESS KEY = AKIA4VGPN3HMPGNFFKXN
-# SECRET KEY = 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
