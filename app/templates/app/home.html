@@ -1,9 +1,10 @@
-{% load static %}
-
-{% block title %}Home{% endblock %}
 
 {% block content %}
-<h1>image</h1>
-<img />
-<link rel="shortcut icon" type="image/png" href="{% static 'img/download.jpag' %}"
-{% endblock content %}
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
+{% endblock %}
