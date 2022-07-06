@@ -161,12 +161,9 @@ USE_TZ = True
 # import environ
 # env = environ.Env()
 
-# AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_ACCESS_KEY_ID="AKIA4VGPN3HMGJLENPFN"
-AWS_SECRET_ACCESS_KEY="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"
-# AWS_ACCESS_KEY_ID=os.getenv('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY=os.getenv('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+
 AWS_STORAGE_BUCKET_NAME = 'nwoaffl-static'
 
 AWS_S3_FILE_OVERWRITE = False
@@ -179,8 +176,8 @@ AWS_LOCATION = 'static'
 AWS_S3_REGION_NAME='us-east-1'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ffredux/static'),]
-# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-STATIC_URL = '/static/'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 
