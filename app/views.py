@@ -8,14 +8,26 @@ from .forms import DocumentForm
 
 class Base(View):
     def get(self,request,*args,**kwargs):
-        return render(request,'app/base.html')
+        pics = NewDocument.objects.all()
+
+        context = {
+            'pics': pics,
+        }
+
+        print('PICCCC',pics)
+
+        return render(request,'app/base.html', context)
 
 class Home(View):
     def get(self,request,*args,**kwargs):
         form = DocumentForm()
+        pics = NewDocument.objects.all()
+        
         context = {
+            'pics': pics,
             'form': form,
         }
+
 
         return render(request,'app/home.html',context)
 

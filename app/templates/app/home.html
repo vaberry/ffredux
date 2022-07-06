@@ -1,3 +1,4 @@
+{% load static %}
 
 {% block content %}
   <form method="POST" enctype="multipart/form-data">
@@ -7,4 +8,12 @@
   </form>
 
   <p><a href="{% url 'home' %}">Return to home</a></p>
+
+
+  {% for pic in pics %}
+  <ul>
+    <li><img src="{{pic.document.url}}" alt=""></li>  
+  </ul>
+
+  {% endfor %}
 {% endblock %}
