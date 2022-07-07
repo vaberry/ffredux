@@ -1,0 +1,59 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div id="search-container">
+
+    <div id="post-results-child">
+        {% if post_list|length > 0 %}
+        <h3 class="mt-3 px-3">Post results:</h3>
+            {% for post in post_list %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-10 col-sm-12 border-bottom">
+                    <p><a class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p>
+                    <div class="position-relative">
+                        <h3>{{ post.title }}</h3>
+                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                    </div>
+                    <div class="position-relative">
+                        <p>{{ post.body|linebreaks }}</p>
+                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h3 class="mt-3 px-3">No post results found...</h3>
+        {% endif %}
+    </div>
+
+
+    <div id="comment-results-child">
+        {% if comment_list|length > 0 %}
+            <h3 class="mt-3 px-3">Comment results:</h3>
+            {% for comment in comment_list %}
+            <div class="row justify-content-center mt-3">
+                <div class="col-md-10 col-sm-12 border-bottom position-relative">
+
+                    <p><a class="text-primary" href="{% url 'profile' comment.author.profile.pk %}">@{{ comment.author }}</a> {{ comment.created_on }}</p>
+                    <div class="position-relative">
+                        <h3>{{ comment.post.title }}</h3>
+                        <a href="{% url 'post-detail' comment.post.pk %}" class="stretched-link"></a>
+                    </div>
+                    <div class="position-relative">
+                        <p>{{ comment.comment|linebreaks }}</p>
+                        <a href="{% url 'post-detail' comment.post.pk %}" class="stretched-link"></a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <h3 class="mt-3 px-3">No comment results found...</h3>
+        {% endif %}
+    </div>
+
+</div>
+
+
+
+{% endblock content %}

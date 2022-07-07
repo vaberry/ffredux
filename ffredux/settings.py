@@ -123,13 +123,26 @@ WSGI_APPLICATION = 'ffredux.wsgi.application'
 # }
 
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "db",
+#         "USER": "db",
+#         "PASSWORD": "AVNS_ACtAEacjkbZM9SDoUXn",
+#         "HOST": "app-59423da4-d3ac-4d59-83fc-32b9f928e1bf-do-user-11866930-0.b.db.ondigitalocean.com",
+#         "PORT": "25060",
+#         "OPTIONS": {"sslmode":"require"},
+
+#     }
+# }
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "db",
-        "USER": "db",
-        "PASSWORD": "AVNS_ACtAEacjkbZM9SDoUXn",
-        "HOST": "app-59423da4-d3ac-4d59-83fc-32b9f928e1bf-do-user-11866930-0.b.db.ondigitalocean.com",
+        "NAME": "defaultdb",
+        "USER": "doadmin",
+        "PASSWORD": "AVNS_8YVX-ElBNgSytmh8bnq",
+        "HOST": "dbaas-db-1061630-do-user-11933898-0.b.db.ondigitalocean.com",
         "PORT": "25060",
         "OPTIONS": {"sslmode":"require"},
 
