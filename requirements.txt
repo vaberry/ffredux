@@ -5,11 +5,13 @@ botocore==1.27.22
 certifi==2022.6.15
 cffi==1.15.1
 charset-normalizer==2.1.0
+crispy-bootstrap5==0.6
 cryptography==37.0.4
 defusedxml==0.7.1
 Django==4.0.6
 django-allauth==0.51.0
 django-bootstrap-v5==1.0.11
+django-crispy-forms==1.14.0
 django-environ==0.9.0
 django-storages==1.12.3
 environ==1.0
