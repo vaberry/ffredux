@@ -1,18 +1,289 @@
+{% extends 'base/main.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Spaces + Django Tutorial</title>
-  <link rel="stylesheet" type="text/css" href="{% static 'css/app.css' %}">
-</head>
-<body>
-  <header>
-    <h1>Spaces + Django Tutorial</h1>
-  </header>
-  <main>
-    <img src="{% static 'img/DO_Logo_icon_blue.png' %}">
-    <h2>Congratulations, you're using Spaces!</h2>
-  </main>
-</body>
-</html>
+{% block content %}
+
+<style>
+#action-button {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+h4 {
+    padding: 5px;
+    border-radius: 25px;
+}
+
+i {
+    color: #333;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+img {
+    margin-right: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+#feed-container {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 90vh;
+    margin: 20px;
+}
+
+#owner-child {
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    overflow: scroll;
+}
+
+#owner-child h4 {
+    background-color:darkseagreen;
+}
+
+#full-post-child {
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+    overflow: scroll;
+}
+
+#full-post-child h4 {
+    background-color: lightskyblue;
+}
+
+#full-post-child #user-post {
+    background-color: #cee0d7;
+}
+
+#full-post-child #non-user-post {
+    background-color: #f2dec4;
+}
+
+#summary-post-child {
+    border-radius: 25px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+    overflow: scroll;
+}
+
+#summary-post-child #pinned-posts h4 {
+    background-color: salmon;
+}
+
+#summary-post-child #other-posts h4 {
+    background-color: khaki;
+}
+
+
+
+#post-topline {
+    margin-left: 10px;
+}
+
+#post-data {
+    margin-left: 20px;
+}
+</style>
+
+<div id="feed-container">
+    <div id="owner-child">
+        <table class="table table-hover table-striped mt-3" style="text-align: center;">
+            <div><h4><i class="fa-solid fa-football fa-fw"></i>Owners</h4></div>
+            {% for owner in owners %}
+            {% if not owner.user.is_superuser %}
+            <tr>
+                <td>
+                    <div class="form-check">
+                        <form method="GET" action="{% url 'profile' owner.user.profile.pk %}">
+                            <button type="submit" class="btn btn secondary">
+                                {% if owner.picture %}
+                                <img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/>
+                                {% else %}
+                                <i class="fa-solid fa-user fa-fw"></i>
+                                {% endif %}
+                            </button>
+                        </form>
+                        <div>{{owner.teamname}}</div>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+        </table>
+    </div>
+    
+    <div id="full-post-child">
+        <div><h4><i class="fa-solid fa-rss"></i>Posts</h4></div>
+        <form class="d-flex" method="GET" action="{% url 'post-search' %}">
+            <div class="input-group mt-3" >
+                <span class="input-group-text" id="basic-addon1"></span>
+                <input type="text" class="form-control" placeholder="Search posts & comments"  aria-label="Search posts & comments" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
+                <button id="action-button" type="submit"><i class="fas fa-search"></i></button>
+            </div>
+        </form>
+
+        <form class="mt-5" method="POST">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <div class="d-grid 2">
+                <button class="btn btn-success mt-1 mb-3">Submit</button>
+            </div>
+            <input type="hidden" name="next" value="{{next}}">
+        </form>
+
+        {% if feed.count > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mt-3">
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>
+              {% if feed.has_previous %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.previous_page_number }}">Previous</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">Previous</a></li>
+              {% endif %}
+              <li class="page-item disabled"><a class="page-link" href="#">{{feed.number}} of {{last_page}}</a></li>
+              {% if feed.has_next %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.next_page_number }}">Next</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Next</a></li>
+              {% endif %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Last</a></li>
+            </ul>
+        </nav>
+        {% endif %}
+
+
+        {% for post in feed %}
+        <div class="border-bottom" id="post">
+            {% if request.user == post.author %}
+                <div id="post-topline"><p id="user-post"><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p></div>
+            {% else %}
+                <div id="post-topline"><p id="non-user-post"><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p></div>
+            {% endif %}
+            <div id="post-data" class="position-relative">
+                <h3>{{ post.title }}</h3>
+                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+            <div id="post-data" class="position-relative">
+                <p>{{ post.body|linebreaks }}</p>
+                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+            </div>
+
+            <div class="d-flex flex-row">
+                <form method="POST" action="{% url 'like' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button id="action-button" type="submit">
+                        <p><i class="far fa-thumbs-up"><span class="px-1">{{ post.likes.all.count }}</span></i></p>
+                    </button>
+                </form>
+
+                <form method="POST" action="{% url 'dislike' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button id="action-button" type="submit">
+                        <p><i class="far fa-thumbs-down"><span class="px-1">{{ post.dislikes.all.count }}</span></i></p>
+                    </button>
+                </form>
+
+                {% if user.is_superuser %}
+                <form method="POST" action="{% url 'post-pin' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}">
+                    <button id="action-button" type="submit">
+                        <i class="fa-solid fa-thumbtack"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+
+
+
+        
+        </div>
+        {% endfor %}
+
+        {% if feed.count > 10 %}
+        <nav aria-label="Page navigation example">
+            <ul class="pagination mt-3">
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>
+              {% if feed.has_previous %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.previous_page_number }}">Previous</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">Previous</a></li>
+              {% endif %}
+              <li class="page-item disabled"><a class="page-link" href="#">{{feed.number}} of {{last_page}}</a></li>
+              {% if feed.has_next %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.next_page_number }}">Next</a></li>
+              {% else %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Next</a></li>
+              {% endif %}
+              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Last</a></li>
+            </ul>
+        </nav>
+        {% endif %}
+        
+    </div>
+
+    <div id="summary-post-child">
+        <div id="pinned-posts"><h4><i class="fa-solid fa-thumbtack fa-fw"></i>Pinned posts</h4></div>
+        {% for post in all %}
+            {% if post.pinned %}
+                <div id="post-topline" class="d-flex flex-row">
+                    <p><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}
+                        {% if user.is_superuser %}
+                        <form method="POST" action="{% url 'post-pin' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}"/>
+                            <button id="action-button" type="submit">
+                                <i class="fa-solid fa-thumbtack"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="position-relative border-bottom">
+                    <p id="post-data"><strong>{{ post.title }}</strong></p>
+                    <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:30}}</p></div>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+        <div id="other-posts"><h4><i class="fa-solid fa-file-pen fa-fw"></i>Other posts</h4></div>
+        {% for post in all %}
+            {% if not post.pinned %}
+                <div id="post-topline" class="d-flex flex-row">
+                    <p><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}
+                        {% if user.is_superuser %}
+                        <form method="POST" action="{% url 'post-pin' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button id="action-button" type="submit">
+                                <i class="fa-solid fa-thumbtack"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="position-relative border-bottom">
+                    <p id="post-data"><strong>{{ post.title }}</strong></p>
+                    <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:30}}</p></div>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock content %}

@@ -1,3 +1,94 @@
+#action-button {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+h4 {
+  padding: 5px;
+  border-radius: 25px;
+}
+
+i {
+  color: #333;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+img {
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+#feed-container {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 90vh;
+  margin: 20px;
+}
+
+#owner-child {
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-left: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#owner-child h4 {
+  background-color:darkseagreen;
+}
+
+#full-post-child {
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-left: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#full-post-child h4 {
+  background-color: lightskyblue;
+}
+
+#full-post-child #user-post {
+  background-color: #cee0d7;
+}
+
+#full-post-child #non-user-post {
+  background-color: #f2dec4;
+}
+
+#summary-post-child {
+  border-radius: 25px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#summary-post-child #pinned-posts h4 {
+  background-color: salmon;
+}
+
+#summary-post-child #other-posts h4 {
+  background-color: khaki;
+}
+
+
+
+#post-topline {
+  margin-left: 10px;
+}
+
+#post-data {
+  margin-left: 20px;
+}
+
 body {
   margin: 0;
   background-color: aqua;
