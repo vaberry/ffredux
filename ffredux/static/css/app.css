@@ -1,3 +1,284 @@
+#trade-container {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr 2fr 1fr ;
+  height: 90vh;
+  margin: 20px;
+}
+
+#continue-negotiations-child {
+  overflow: scroll;
+}
+
+#start-negotiations-child {
+  overflow: scroll;
+
+}
+
+#completed-trades-child {
+  overflow: scroll;
+}
+
+#search-container {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr 1fr;
+  height: 90vh;
+  margin: 20px;
+}
+
+#post-results-child {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-left: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#comment-results-child {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#action-button {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+h4 {
+  padding: 5px;
+  border-radius: 25px;
+}
+
+i {
+  color: #333;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+img {
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+
+#detail-container {
+  display: grid;
+  padding: 20px;
+  gap: 1.5rem;
+  grid-template-columns: 2fr 1fr;
+  height: 90vh;
+  margin-top: 30px;
+}
+
+#detail-container #post-detail {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#detail-container #comment-detail {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+  overflow: scroll;
+}
+
+#action-button {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+h4 {
+  padding: 5px;
+  border-radius: 25px;
+}
+
+i {
+  color: #333;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+
+img {
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin: 10px;
+}
+
+.chatlist {
+  height: 100vh;
+  width: 300px;
+}
+
+.chat {
+  background-color: #ece5dd;
+  width: 70vw;
+  height: 80vh;
+  overflow: scroll;
+}
+
+a {
+  text-decoration: none;
+}
+
+#message1 {
+  text-align: left;
+  padding-left: 2%;
+  margin: 15px;
+  margin-right: auto;
+  margin-left: 2%;
+  font-size: small;
+  background-color: lightgreen;
+  height: max-content;
+  max-width: 20rem;
+  border-radius: 3%;
+}
+
+#message1 > .sender1 {
+  font-size: small;
+}
+
+#message1 > .body1 {
+  font-size: larger;
+  word-wrap: break-word;
+}
+
+#message1 > .date1 {
+  font-size: small;
+}
+
+
+#message2 {
+  text-align: right;
+  padding-right: 2%;
+  margin: 15px;
+  margin-left: auto;
+  margin-right: 2%;
+  font-size: small;
+  background-color: white;
+  height: max-content;
+  max-width: 20rem;
+  border-radius: 3%;
+}
+
+#message2 > .sender2 {
+  font-size: small;
+}
+
+#message2 > .body2 {
+  font-size: larger;
+  word-wrap: break-word;
+}
+
+#message2 > .date2 {
+  font-size: small;
+}
+
+.send-message {
+  height: 20vh;
+}
+
+.chat-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin: 10px;
+}
+
+.chatlist {
+  height: 100vh;
+  width: 300px;
+}
+
+.chat {
+  background-color: #ece5dd;
+  width: 70vw;
+  height: 80vh;
+  overflow: scroll;
+}
+
+a {
+  text-decoration: none;
+}
+
+#message1 {
+  text-align: left;
+  padding-left: 2%;
+  margin: 15px;
+  margin-right: auto;
+  margin-left: 2%;
+  font-size: small;
+  background-color: lightgreen;
+  height: max-content;
+  max-width: 20rem;
+  border-radius: 3%;
+}
+
+#message1 > .sender1 {
+  font-size: small;
+  padding-top: 2%;
+}
+
+#message1 > .body1 {
+  font-size: larger;
+  word-wrap: break-word;
+}
+
+#message1 > .date1 {
+  font-size: small;
+  padding-bottom: 2%;
+}
+
+
+#message2 {
+  text-align: right;
+  padding-right: 2%;
+  margin: 15px;
+  margin-left: auto;
+  margin-right: 2%;
+  font-size: small;
+  background-color: white;
+  height: max-content;
+  max-width: 20rem;
+  border-radius: 3%;
+}
+
+#message2 > .sender2 {
+  font-size: small;
+  padding-top: 2%;
+}
+
+#message2 > .body2 {
+  font-size: larger;
+  word-wrap: break-word;
+}
+
+#message2 > .date2 {
+  font-size: small;
+  padding-bottom: 2%;
+}
+
+.send-message {
+  height: 20vh;
+}
+
 .notification-badge {
   transition: 0.3s;
 }
@@ -64,6 +345,7 @@
 #action-button {
   background-color: transparent;
   box-shadow: none;
+  border: none;
 }
 
 h4 {

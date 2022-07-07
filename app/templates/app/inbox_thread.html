@@ -1,0 +1,87 @@
+{% extends 'base/main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="chat-container">
+	<div class="row">
+		<div class="col">
+			<div class="chatlist">
+				<form method="POST" action="{% url 'create-thread' %}">
+					{% csrf_token %}
+					<h4>Start a new conversation: </h4>
+					<select class="filter-selectbox" name="username">
+						{% for user in users %}
+						{% if not user.is_superuser %}
+						{% if not user == request.user %}
+						<option value={{user}}>{{user}}</option>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</select>
+					<input type="submit" value="Start conversation">
+				</form>
+				<br>
+				<br>
+				<table class="table table-striped table-bordered table-hover" style="min-width:max-content">
+					<div><h4 style="background-color:lightskyblue; min-width: max-content;"><i class="fas fa-comments fa fw" style="margin-right: 10px;"></i>Your conversations</h4></div>
+					{% for thread in threads.all %}
+					<tr>
+						<td>
+							<form method="GET" action="{% url 'thread' thread.pk%}">
+								{% if thread.user == request.user %}
+								<button type="submit" class="btn btn secondary">{{ thread.receiver }}</button>
+								{% else %}
+								<button type="submit" class="btn btn secondary">{{ thread.user }}</button>
+								{% endif %}
+							</form>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			{% if thread.user == request.user %}
+			<h4><a href="{% url 'profile' thread.receiver.profile.pk %}">@{{thread.receiver}}</a></h4>
+			{% else %}
+			<h4><a href="{% url 'profile' thread.user.profile.pk %}">@{{thread.user}}</a></h4>
+			{% endif %}
+			<div class="chat">
+				{% for message in message_list%}
+				{% if message.sender_user == request.user %}
+				<div class="" id="message1">
+					<div class="sender1"><a href="{% url 'profile' message.sender_user.profile.pk %}">@{{message.sender_user}}</a></div>
+					<div class ="body1">{{message.body}}</div>
+					<div class ="date1">{{message.date}}</div>
+				</div>
+				{% else %}
+				<div class="" id="message2">
+					<div class="sender2"><a href="{% url 'profile' message.sender_user.profile.pk %}">@{{message.sender_user}}</a></div>
+					<div class ="body2">{{message.body}}</div>
+					<div class ="date2">{{message.date}}</div>
+				</div>
+				{% endif %}
+				{% endfor %}
+			</div>
+			<div class="send-message">
+				<form method="POST" action="{% url 'create-message' thread.pk %}" enctype="multipart/form-data">
+					{% csrf_token %}
+					{{ form | crispy }}
+					<div class="d-grid gap-2 mt-3">
+						<button class="btn btn-primary" type="submit">Send Message</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>$('.chat').scrollTop($('.chat')[0].scrollHeight);</script>
+
+
+{% endblock content %}

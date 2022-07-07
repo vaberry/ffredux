@@ -1,0 +1,55 @@
+{% extends 'base/main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="chat-container">
+	<div class="row">
+		<div class="col">
+			<div class="chatlist">
+				<form method="POST" action="{% url 'create-thread' %}">
+					{% csrf_token %}
+					<h4>Start a new conversation: </h4>
+					<select class="filter-selectbox" name="username">
+						{% for user in users %}
+						{% if not user.is_superuser %}
+						{% if not user == request.user %}
+						<option value={{user}}>{{user}}</option>
+						{% endif %}
+						{% endif %}
+						{% endfor %}
+					</select>
+					<input type="submit" value="Start conversation">
+				</form>
+				<br>
+				<br>
+				<table class="table table-striped table-bordered table-hover" style="min-width:max-content">
+					<div><h4 style="background-color:lightskyblue; min-width: max-content;"><i class="fas fa-comments fa fw" style="margin-right: 10px;"></i>Your conversations</h4></div>
+					{% for thread in threads.all %}
+					<tr>
+						<td>
+							<form method="GET" action="{% url 'thread' thread.pk%}">
+								{% if thread.user == request.user %}
+								<button type="submit" class="btn btn secondary">{{ thread.receiver }}</button>
+								{% else %}
+								<button type="submit" class="btn btn secondary">{{ thread.user }}</button>
+								{% endif %}
+							</form>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<div class="chat">
+				<h3 style="text-align: center; margin-top: 20%;">Choose or start a conversation</h3>
+			</div>
+		</div>
+	</div>
+</div>
+		
+
+{% endblock content %}

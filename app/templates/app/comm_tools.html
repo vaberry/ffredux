@@ -1,0 +1,82 @@
+{% extends 'app/main.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<style>
+#comm-tools-container {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    height: 90vh;
+    margin: 20px;
+}
+
+#add-franchise-child {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-left: 3px;
+    margin-bottom: 3px;
+}
+
+#update-picks-child {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    margin-right: 3px;
+    margin-bottom: 3px;
+}
+
+#action-button {
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+}
+
+h4 {
+    padding: 5px;
+    border-radius: 25px;
+}
+
+i {
+    color: #333;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+img {
+    margin-right: 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+</style>
+
+<div id="comm-tools-container">
+    
+    <div class="px-4 py-2" id="add-franchise-child">
+        <h3>Add a franchise</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ franchise_form | crispy }}
+            <div>
+                <button class="btn btn-success mt-3">Add</button>
+            </div>
+            <input type="hidden" name="franchise_next" value="{{franchise_next}}">
+        </form>
+    </div>
+    <div class="px-4 py-2" id="update-picks-child">
+        <h3>Update draft pick order</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ pick_form | crispy }}
+            <div>
+                <button class="btn btn-success mt-3">Update Picks</button>
+            </div>
+            <input type="hidden" name="pick_next" value="{{pick_next}}">
+        </form>
+    </div>
+
+
+</div>
+
+{% endblock content%}

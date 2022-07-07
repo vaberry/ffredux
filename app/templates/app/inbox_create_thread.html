@@ -1,0 +1,34 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 p-5">
+			<a href="{% url 'inbox' %}" class="btn btn-light">Back to Your Inbox</a>
+		</div>
+	</div>
+
+	<div class="row justify-content-center mt-3 mb-5">
+		<div class="col-md-5 col-sm-12">
+			<form method="POST">
+				{% csrf_token %}
+				<h4>Start a new conversation: </h4>
+				<select class="filter-selectbox" name="username">
+					{% for user in users %}
+					{% if not user.is_superuser %}
+					{% if not user == request.user %}
+					<option value={{user}}>{{user}}</option>
+					{% endif %}
+					{% endif %}
+					{% endfor %}
+				</select>
+				<input type="submit" value="Start talks">
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}
+
+
