@@ -33,7 +33,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 DEBUG = True
 
 # ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1,localhost").split(",")
-ALLOWED_HOSTS = ["nwoaffl.com","octopus-app-s69md.ondigitalocean.app","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhost"]
+ALLOWED_HOSTS = ["www.nwoaffl.com","nwoaffl.com","octopus-app-s69md.ondigitalocean.app","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhost"]
 
 # Application definition
 INSTALLED_APPS = [
