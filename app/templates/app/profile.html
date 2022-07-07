@@ -1,0 +1,123 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<div id="profile-container">
+
+    <div class="d-flex justify-content-start" id="profile-data">
+        {% if profile.picture %}
+        <div id="profile-pic">
+            <img src="{{ profile.picture.url }}" class="rounded-circle"/>
+        </div>
+        {% else %}
+        <div id="profile-pic">
+            <i class="fa-solid fa-user fa-2xl"></i>
+        </div>
+        {% endif %}
+
+        <div>
+            {% if profile.teamname %}
+                <h3 class="py-4 px-4">{{ profile.teamname }}
+                    {% if request.user == profile.user %}
+                        <a href="{% url 'profile-edit' profile.pk %}"><i class="far fa-edit"></i></a>
+                    {% endif %}
+                    <p><a href="{% url 'profile' profile.pk %}">@{{profile.user}}</a></p>
+                </h3>
+            {% else %}
+                <h3 class="py-4 px-4">{{ user.username}}
+                    {% if request.user == profile.user %}
+                        <a href="{% url 'profile-edit' profile.pk %}"><i class="far fa-edit"></i></a>
+                    {% endif %}
+                </h3>
+            {% endif %}
+        </div>
+    </div>
+
+    <div id="team-roster">
+
+    </div>
+
+    <div id="team-posts">
+        <h3 class="border-bottom mt-3 mb-3">{{profile.teamname}} posts: </h3>
+            {% for post in posts %}
+            {% if profile.user == post.author %}
+            <div class="border-bottom" id="post">
+                <div id="post-topline"><p id="user-post"><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p></div>
+
+                <div id="post-data" class="position-relative">
+                    <h3>{{ post.title }}</h3>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+
+                <div id="post-data" class="position-relative">
+                    <p>{{ post.body|linebreaks }}</p>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+    
+                <div class="d-flex flex-row px-2">
+                    {% if request.user == post.author %}
+                        <a href="{% url 'post-delete' post.pk %}"><i class="fas fa-trash fa-fw"></i></a>
+                        <a href="{% url 'post-edit' post.pk %}"><i class="far fa-edit fa-fw"></i></a>
+                    {% endif %}
+                    <form method="POST" action="{% url 'like' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <p><i class="far fa-thumbs-up"><span class="px-1">{{ post.likes.all.count }}</span></i></p>
+                        </button>
+                    </form>
+        
+                    <form method="POST" action="{% url 'dislike' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <p><i class="far fa-thumbs-down"><span class="px-1">{{ post.dislikes.all.count }}</span></i></p>
+                        </button>
+                    </form>
+                    {% if user.is_superuser %}
+                    <form method="POST" action="{% url 'post-pin' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <i class="fa-solid fa-thumbtack"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+    </div>
+
+    <div class="px-4 mt-3" id="team-picks">
+
+
+        <h3 class="border-bottom mb-3">{{profile.teamname}} picks: </h3>
+        <div class="row">
+            <div class="col-sm">
+                <h4 style="text-align:left;">2022</h4>
+                {% for pick in picks %}
+                {% if pick.owner == profile.user and pick.year == 2022 %}
+                <div class="border-bottom" style="text-align: left;">
+                    {{pick.original_owner}}'s {{pick.year}} {{pick.round}}.{{pick.pick}}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col-sm">
+                <h4 style="text-align:left;">2023</h4>
+                {% for pick in picks %}
+                {% if pick.owner == profile.user and pick.year == 2023 %}
+                <div class="border-bottom" style="text-align: left;">
+                    {{pick.original_owner}}'s {{pick.year}} {{pick.round}}.{{pick.pick}}
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

@@ -38,20 +38,25 @@ ALLOWED_HOSTS = ["sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhos
 # Application definition
 # test
 INSTALLED_APPS = [
+    'app',
+    'bootstrap5',
+    'crispy_forms',
+    'crispy_bootstrap5',
+
+## THESE ARE FROM ALLAUTH ##
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'storages',
+        ####
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'app',
-    'storages',
-
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
 ]
 
 SITE_ID = 1
@@ -198,3 +203,5 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_REDIRECT_URL = '/home'

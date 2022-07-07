@@ -1,22 +1,23 @@
+{% load custom_tags %}
 
 <div class="container gx-0">
   <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid mt-3">
       {% if request.user.is_authenticated %}       
-        <div><a class="navbar-brand" href="#"><i class="fas fa-trophy fa-fw" style="margin-right: 10px;"></i>NWOAFFL</a></div>
-        <div><a class="navbar-brand" href="#"><i class="fa-solid fa-house-user"></i></a></div>
-        <div><a href="#"><img src="#" class="rounded-circle" height="50" width="50"/></a></div>
-        <div><a class="navbar-brand" href="#"><i class="fa-solid fa-arrow-right-arrow-left"></i></a></div>
-        <div><a class="navbar-brand" href="#"><i class="fa-solid fa-border-all"></i></a></div>
-        <div class="nav-item inbox-icon-container"><a href="#" class="inbox-icon"><i class="far fa-paper-plane"></i></a></div>
+        <div><a class="navbar-brand" href="{% url 'home' %}"><i class="fas fa-trophy fa-fw" style="margin-right: 10px;"></i>NWOAFFL</a></div>
+        <div><a class="navbar-brand" href="{% url 'home' %}"><i class="fa-solid fa-house-user"></i></a></div>
+        <div><a href="{% url 'profile' request.user.pk %}"><img src="{{ request.user.profile.picture.url }}" class="rounded-circle" height="50" width="50"/></a></div>
+        <div><a class="navbar-brand" href="{% url 'trade' %}"><i class="fa-solid fa-arrow-right-arrow-left"></i></a></div>
+        <div><a class="navbar-brand" href="{% url 'draftboard' %}"><i class="fa-solid fa-border-all"></i></a></div>
+        <div class="nav-item inbox-icon-container"><a href="{% url 'inbox' %}" class="inbox-icon"><i class="far fa-paper-plane"></i></a></div>
         {% if user.is_superuser %}
-          <div><a class="navbar-brand" href="#"><i class="fa-solid fa-plus"></i></a></div>
+          <div><a class="navbar-brand" href="{% url 'comm-tools' %}"><i class="fa-solid fa-plus"></i></a></div>
         {% endif %}
-        <div class="nav-item">#</div>
-        <div><a class="navbar-brand" href="#"><i class="fa-solid fa-door-closed"></i></a></div>
+        <div class="nav-item">{% show_notifications %}</div>
+        <div><a class="navbar-brand" href="{% url 'account_logout' %}"><i class="fa-solid fa-door-closed"></i></a></div>
       {% else %}
-        <div><a class="navbar-brand" href="#"><i class="fas fa-trophy fa-fw" style="margin-right: 10px;"></i>NWOAFFL</a></div>
-        <div><a class="navbar-brand" href="#">Sign In</a></div>
+        <div><a class="navbar-brand" href="{% url 'landing' %}"><i class="fas fa-trophy fa-fw" style="margin-right: 10px;"></i>NWOAFFL</a></div>
+        <div><a class="navbar-brand" href="{% url 'account_login' %}">Sign In</a></div>
       {% endif %}
       </div>
     </div>

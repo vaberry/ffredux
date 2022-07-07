@@ -1,0 +1,20 @@
+{% extends 'account/base.html' %}
+
+{% block content %}
+
+<div style="margin: auto; padding: 40px;">
+    <a href="{% url 'landing' %}">Back to Home</a>
+</div>
+<div>
+    <form method="POST" style="margin: auto; width: 350px;">
+        {% csrf_token %}
+        <h1>Sign Up</h1>
+        {{ form.as_p }}
+        <input type="submit" value="Sign Up"/>
+    </form>
+    <form style="margin: auto; width: 350px; margin-top: 30px;">
+        Already have an account?
+        <a href="{% url 'account_login' %}" style="margin: auto; width: 300px; margin-top: 30px;">Sign in.</a>
+    </form>
+</div>
+{% endblock content%}
