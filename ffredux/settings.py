@@ -36,7 +36,6 @@ DEBUG = True
 ALLOWED_HOSTS = ["nwoaffl.com","octopus-app-s69md.ondigitalocean.app","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhost"]
 
 # Application definition
-# test
 INSTALLED_APPS = [
     'app',
     'bootstrap5',
