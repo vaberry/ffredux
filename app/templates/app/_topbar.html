@@ -59,14 +59,12 @@
 
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
-        {% for owner in owners %}
-        {% if request.user == owner.user %}
-          <a class="nav-link dropdown-toggle" href="{% url 'profile' owner.user.pk %}">
-            <span class="mr-2 d-none d-lg-inline text-gray-600 small">@{{ owner.user }}</span>
-            <img class="img-profile rounded-circle" src="{{ owner.picture.url }}" height="30px" width="30px"/>
+
+          <a class="nav-link dropdown-toggle" href="{% url 'profile' request.user.pk %}">
+            <span class="mr-2 d-none d-lg-inline text-gray-600 small">@{{ request.user }}</span>
+            <img class="img-profile rounded-circle" src="{{ request.user.profile.picture.url }}" height="30px" width="30px"/>
           </a>
-        {% endif %}
-        {% endfor %}
+
         </li>
       </ul>
     </nav>

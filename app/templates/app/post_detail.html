@@ -6,34 +6,10 @@
 <div id="detail-container">
     <div id="post-detail">
         <div class="d-flex flex-row">
-            <a class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}            
+            <a class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a><a style="color: #000; margin-left: 5px;" href="">{{ post.created_on }}</a>            
             {% if request.user == post.author %}
                 <a href="{% url 'post-delete' post.pk %}"><i class="fas fa-trash fa-fw" style="color: #333;"></i></a>
                 <a href="{% url 'post-edit' post.pk %}"><i class="far fa-edit fa-fw" style="color: #333;"></i></a>
-            {% endif %}
-            <form method="POST" action="{% url 'like' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-up"><span class="">{{ post.likes.all.count }}</span></i></p>
-                </button>
-            </form>
-
-            <form method="POST" action="{% url 'dislike' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-down"><span class="">{{ post.dislikes.all.count }}</span></i></p>
-                </button>
-            </form>
-            {% if user.is_superuser %}
-            <form method="POST" action="{% url 'post-pin' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <i class="fa-solid fa-thumbtack"></i>
-                </button>
-            </form>
             {% endif %}
         </div>
         <div class="position-relative px-3 mt-3">
@@ -44,6 +20,36 @@
             <p>{{ post.body|linebreaks }}</p>
             <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
         </div>
+
+        <div class="d-flex flex-row">
+            <form method="POST" action="{% url 'like' post.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button id="action-button" type="submit">
+                    <p><i class="far fa-thumbs-up"><span class="px-1">{{ post.likes.all.count }}</span></i></p>
+                </button>
+            </form>
+
+            <form method="POST" action="{% url 'dislike' post.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button id="action-button" type="submit">
+                    <p><i class="far fa-thumbs-down"><span class="px-1">{{ post.dislikes.all.count }}</span></i></p>
+                </button>
+            </form>
+
+            {% if user.is_superuser %}
+            <form method="POST" action="{% url 'post-pin' post.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.path }}">
+                <button id="action-button" type="submit">
+                    <i class="fa-solid fa-thumbtack"></i>
+                </button>
+            </form>
+            {% endif %}
+        </div>
+
+
     </div>
 
     <div id="comment-detail">

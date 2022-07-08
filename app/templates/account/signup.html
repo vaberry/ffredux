@@ -10,11 +10,11 @@
         {% csrf_token %}
         <h1>Sign Up</h1>
         {{ form.as_p }}
-        <input type="submit" value="Sign In"/>
+        <input type="submit" value="Sign Up"/>
     </form>
     <form style="margin-bottom: 50px; margin-top: 50px; ">
-        Need to sign up instead?
-        <a href="{% url 'account_login' %}" style="margin: auto; margin-top: 30px;">Sign up.</a>
+        Need to sign in instead?
+        <a href="{% url 'account_login' %}" style="margin: auto; margin-top: 30px;">Sign in.</a>
     </form>
 </div>
 {% endblock content%}
