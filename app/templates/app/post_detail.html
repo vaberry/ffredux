@@ -5,7 +5,7 @@
 
 <div id="detail-container">
     <div id="post-detail">
-        <div class="d-flex flex-row px-3 mt-3">
+        <div class="d-flex flex-row">
             <a class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a> {{ post.created_on }}            
             {% if request.user == post.author %}
                 <a href="{% url 'post-delete' post.pk %}"><i class="fas fa-trash fa-fw" style="color: #333;"></i></a>
@@ -15,7 +15,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.path }}">
                 <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-up"><span class="px-1">{{ post.likes.all.count }}</span></i></p>
+                    <p><i class="far fa-thumbs-up"><span class="">{{ post.likes.all.count }}</span></i></p>
                 </button>
             </form>
 
@@ -23,7 +23,7 @@
                 {% csrf_token %}
                 <input type="hidden" name="next" value="{{ request.path }}">
                 <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-down"><span class="px-1">{{ post.dislikes.all.count }}</span></i></p>
+                    <p><i class="far fa-thumbs-down"><span class="">{{ post.dislikes.all.count }}</span></i></p>
                 </button>
             </form>
             {% if user.is_superuser %}

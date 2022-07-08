@@ -4,42 +4,9 @@
 
 {% block content %}
 
-<div id="feed-container">
-    <div id="owner-child">
-        <table class="table table-hover table-striped mt-3" style="text-align: center;">
-            <div><h4><i class="fa-solid fa-football fa-fw"></i>Owners</h4></div>
-            {% for owner in owners %}
-            {% if not owner.user.is_superuser %}
-            <tr>
-                <td>
-                    <div class="form-check">
-                        <form method="GET" action="{% url 'profile' owner.user.profile.pk %}">
-                            <button type="submit" class="btn btn secondary">
-                                {% if owner.picture %}
-                                <img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/>
-                                {% else %}
-                                <i class="fa-solid fa-user fa-fw"></i>
-                                {% endif %}
-                            </button>
-                        </form>
-                        <div>{{owner.teamname}}</div>
-                    </div>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-        </table>
-    </div>
-    
-    <div id="full-post-child">
+<div>
+    <div>
         <div><h4><i class="fa-solid fa-rss"></i>Posts</h4></div>
-        <form class="d-flex" method="GET" action="{% url 'post-search' %}">
-            <div class="input-group mt-3" >
-                <span class="input-group-text" id="basic-addon1"></span>
-                <input type="text" class="form-control" placeholder="Search posts & comments"  aria-label="Search posts & comments" aria-describedby="basic-addon1" name="query" value="{{ request.GET.query }}">
-                <button id="action-button" type="submit"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
 
         <form class="mt-5" method="POST">
             {% csrf_token %}

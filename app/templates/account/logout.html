@@ -2,16 +2,19 @@
 
 {% block content %}
 
-<div style="margin: auto; padding: 40px;">
+<div>
     <a href="{% url 'home' %}">Back to Home</a>
 </div>
 <div>
-    <form method="POST" style="margin: auto; width: 300px; text-align: center;">
+    <form method="POST" style="width:950px; text-align: center; margin-bottom: 50px;">
         {% csrf_token %}
             <h1>Are you sure?</h1>
         {{ form.as_p }}
-        <input style="margin-top: 10px;" type="hidden" value="Sign Out"/>
+        <input type="hidden" value="Sign Out"/>
         <button type="submit" class="btn btn-danger">Sign Out</button>
     </form>
 </div>
 {% endblock content%}
+
+
+

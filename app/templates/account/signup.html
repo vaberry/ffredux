@@ -2,19 +2,19 @@
 
 {% block content %}
 
-<div style="margin: auto; padding: 40px;">
+<div style="padding: 40px;">
     <a href="{% url 'landing' %}">Back to Home</a>
 </div>
 <div>
-    <form method="POST" style="margin: auto; width: 350px;">
+    <form method="POST" style="margin: 150px;">
         {% csrf_token %}
         <h1>Sign Up</h1>
         {{ form.as_p }}
-        <input type="submit" value="Sign Up"/>
+        <input type="submit" value="Sign In"/>
     </form>
-    <form style="margin: auto; width: 350px; margin-top: 30px;">
-        Already have an account?
-        <a href="{% url 'account_login' %}" style="margin: auto; width: 300px; margin-top: 30px;">Sign in.</a>
+    <form style="margin-bottom: 50px; margin-top: 50px; ">
+        Need to sign up instead?
+        <a href="{% url 'account_login' %}" style="margin: auto; margin-top: 30px;">Sign up.</a>
     </form>
 </div>
 {% endblock content%}

@@ -15,7 +15,7 @@ class NewDocument(models.Model):
 class Owner(models.Model):
     user = models.OneToOneField(User, primary_key=True, verbose_name='user', related_name='profile', on_delete=models.CASCADE)
     teamname = models.CharField(default="*name your team*",max_length=100, blank=True, null=True)
-    picture = models.ImageField(upload_to="img/", default='img/default_user.png', blank=True)
+    picture = models.ImageField(upload_to="img/profile_pics/", default='img/default_user.png', blank=True)
     pick_spot = models.BigIntegerField(blank=True,null=True)
 
 @receiver(post_save, sender=User)

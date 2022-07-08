@@ -16,6 +16,16 @@ from .forms import PostForm,CommentForm,FranchiseForm,UpdatePickForm,ThreadForm,
 
 years=['2022','2023']
 
+class Test(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        owners = Owner.objects.all().order_by('teamname')
+        context = {
+            'owners':owners,
+        }
+        return render(request,'app/test.html',context)
+
+
+
 class Landing(View):
     def dispatch(self, request,*args, **kwargs):
         if request.user.is_authenticated:

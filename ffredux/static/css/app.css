@@ -1,3 +1,9 @@
+#action-button {
+  border: none;
+  background-color: transparent;
+  box-shadow: none;
+}
+
 #trade-container {
   display: grid;
   gap: 1.5rem;
@@ -41,30 +47,8 @@
   overflow: scroll;
 }
 
-#action-button {
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-}
 
-h4 {
-  padding: 5px;
-  border-radius: 25px;
-}
 
-i {
-  color: #333;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-img {
-  margin-right: 10px;
-}
-
-a {
-  text-decoration: none;
-}
 
 
 #detail-container {
@@ -90,30 +74,6 @@ a {
   overflow: scroll;
 }
 
-#action-button {
-  border: none;
-  background-color: transparent;
-  box-shadow: none;
-}
-
-h4 {
-  padding: 5px;
-  border-radius: 25px;
-}
-
-i {
-  color: #333;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-img {
-  margin-right: 10px;
-}
-
-a {
-  text-decoration: none;
-}
 
 .chat-container {
   display: flex;
@@ -134,9 +94,6 @@ a {
   overflow: scroll;
 }
 
-a {
-  text-decoration: none;
-}
 
 #message1 {
   text-align: left;
@@ -214,10 +171,6 @@ a {
   overflow: scroll;
 }
 
-a {
-  text-decoration: none;
-}
-
 #message1 {
   text-align: left;
   padding-left: 2%;
@@ -246,7 +199,6 @@ a {
   padding-bottom: 2%;
 }
 
-
 #message2 {
   text-align: right;
   padding-right: 2%;
@@ -273,10 +225,6 @@ a {
 #message2 > .date2 {
   font-size: small;
   padding-bottom: 2%;
-}
-
-.send-message {
-  height: 20vh;
 }
 
 .notification-badge {
@@ -342,36 +290,10 @@ a {
   cursor: pointer;
 }
 
-#action-button {
-  background-color: transparent;
-  box-shadow: none;
-  border: none;
-}
-
-h4 {
-  padding: 5px;
-}
-
-i {
-  color: #333;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-img {
-  margin-right: 10px;
-  height: 50px;
-  width: 50px;
-}
-
-a {
-  text-decoration: none;
-}
-
 #feed-container {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr 1fr;
   height: 90vh;
   margin: 20px;
 }
@@ -424,7 +346,6 @@ a {
   background-color: khaki;
 }
 
-
 #post-topline {
   margin-left: 10px;
 }
@@ -459,7 +380,6 @@ a {
   width: 150px;
 }
 
-
 #team-posts {
   height: 90vh;
   overflow: scroll;
@@ -470,67 +390,6 @@ a {
   overflow: scroll;
 }
 
-#action-button {
-background-color: transparent;
-box-shadow: none;
-}
-
-h4 {
-  padding: 5px;
-  border-radius: 25px;
-}
-
-i {
-  color: #333;
-  margin-right: 10px;
-  margin-left: 5px;
-}
-
-img {
-  margin-right: 10px;
-}
-
-a {
-  text-decoration: none;
-}
-
-#post-topline {
-  margin-left: 10px;
-}
-
 #post-data {
   margin-left: 20px;
-}
-
-body {
-  margin: 0;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  border: none;
-}
-
-.container {
-  width: 80%;
-  background-color: #fff;
-  padding: 20px;
-  margin: 40px auto;
-}
-
-form {
-  margin-bottom: 20px;
-  padding: 10px;
-  width: 350px;
-}
-
-table {
-  width: 100%;
-}
-
-table td,
-table th {
-  padding: 5px 8px;
-  text-align: left;
-}
-
-table thead {
-  border-bottom: 2px solid #eceeef;
 }
