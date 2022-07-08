@@ -51,6 +51,29 @@
 
 
 
+#trade-room-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: 90vh;
+  margin: 10px;
+}
+
+#trader-one-container {
+  overflow: scroll;
+}
+
+#trader-two-container {
+  overflow: scroll;
+}
+
+#trade-details-container {
+  overflow: scroll;
+}
+
+
+
+
+
 #detail-container {
   display: grid;
   padding: 20px;
@@ -470,7 +493,7 @@ img {
   margin-right: 10px;
 }
 
-a {
+a * {
   text-decoration: none;
 }
 

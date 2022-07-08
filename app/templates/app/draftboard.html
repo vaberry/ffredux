@@ -9,12 +9,8 @@
   {% if not owner.user.is_superuser%}
   <div class="column_container">
     <div class="team_item">
-        <form method="GET" action="{% url 'profile' owner.pk%}">
-          <button type="submit" class="btn btn secondary">
-              <img src="{{ owner.picture.url }}" class="rounded-circle" width="50" height="50"/>
-          </button>
-        </form>
         {{owner.teamname}}
+        <a class="collapse-item" href="{% url 'profile' request.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
     </div>
     <div class="row_container">
       {% for pick in picks %}

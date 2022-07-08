@@ -4,155 +4,110 @@
 
 {% block content %}
 
-<div id="feed-container">
-    <div id="full-post-child">
-        <div><h4><i class="fa-solid fa-rss"></i>Posts</h4></div>
+<style>
+    body{background-color:#eee}.time{font-size: 9px !important}.socials i{margin-right: 14px;font-size: 17px;color: #d2c8c8;cursor: pointer}.feed-image img{width: 100%;height: auto} a{text-decoration: none;}
+</style>
 
-        <form class="mt-5" method="POST">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <div class="d-grid 2">
-                <button class="btn btn-success mt-1 mb-3">Submit</button>
-            </div>
-            <input type="hidden" name="next" value="{{next}}">
-        </form>
+<div class="container mt-4 mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-8">
+            <div class="feed p-2">
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white border">
+                    <div class="feed-text px-2">
+                        <form class="mt-5" method="POST">
+                            {% csrf_token %}
+                            {{ form }}
+                            <div class="d-grid 2">
+                                <button class="btn btn-success mt-1 mb-3">Submit</button>
+                            </div>
+                            <input type="hidden" name="next" value="{{next}}">
+                        </form>
+                    </div>
+                </div>
 
-        {% if feed.count > 10 %}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination mt-3">
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>
-              {% if feed.has_previous %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.previous_page_number }}">Previous</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">Previous</a></li>
-              {% endif %}
-              <li class="page-item disabled"><a class="page-link" href="#">{{feed.number}} of {{last_page}}</a></li>
-              {% if feed.has_next %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.next_page_number }}">Next</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Next</a></li>
-              {% endif %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Last</a></li>
-            </ul>
-        </nav>
-        {% endif %}
-
-
-        {% for post in feed %}
-        <div class="border-bottom" id="post">
-            {% if request.user == post.author %}
-                <div id="post-topline"><p id="user-post"><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p></div>
-            {% else %}
-                <div id="post-topline"><p id="non-user-post"><a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}</p></div>
-            {% endif %}
-            <div id="post-data" class="position-relative">
-                <h3>{{ post.title }}</h3>
-                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-            </div>
-            <div id="post-data" class="position-relative">
-                <p>{{ post.body|linebreaks }}</p>
-                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-            </div>
-
-            <div class="d-flex flex-row">
-                <form method="POST" action="{% url 'like' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button id="action-button" type="submit">
-                        <p><i class="far fa-thumbs-up"><span></span></i>{{ post.likes.all.count }}</p>
-                    </button>
-                </form>
-
-                <form method="POST" action="{% url 'dislike' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button id="action-button" type="submit">
-                        <p><i class="far fa-thumbs-down"><span></span></i>{{ post.dislikes.all.count }}</p>
-                    </button>
-                </form>
-
-                {% if user.is_superuser %}
-                <form method="POST" action="{% url 'post-pin' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}">
-                    <button id="action-button" type="submit">
-                        <i class="fa-solid fa-thumbtack"></i>
-                    </button>
-                </form>
+                {% if feed.count > 10 %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination mt-3">
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>
+                      {% if feed.has_previous %}
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.previous_page_number }}">Previous</a></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">Previous</a></li>
+                      {% endif %}
+                      <li class="page-item disabled"><a class="page-link" href="#">{{feed.number}} of {{last_page}}</a></li>
+                      {% if feed.has_next %}
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.next_page_number }}">Next</a></li>
+                      {% else %}
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Next</a></li>
+                      {% endif %}
+                      <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Last</a></li>
+                    </ul>
+                </nav>
                 {% endif %}
+
+
+                {% for post in feed %}
+                {% if request.user == post.author %}
+                <div class="bg-white border mt-2">
+                    <div>
+                        <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+                            <div class="d-flex flex-row align-items-center feed-text px-2"><a href="{% url 'profile' post.author.pk %}"><img class="rounded-circle" src="{{ post.author.profile.picture.url  }}" width="45"></a>
+                                <div class="d-flex flex-column flex-wrap ml-2"><span class="font-weight-bold"><a href="{% url 'profile' post.author.pk %}">@{{ post.author }} </a> {{ post.created_on }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2 px-3">
+                        <span>
+                            <strong>{{ post.title }}</strong>
+                        </span>
+                    </div>
+                    <div class="p-2 px-3">
+                        <p>{{post.body}}</p>
+                    </div>
+
+
+                    <div class="d-flex justify-content-end socials p-2 py-3">
+                        <form method="POST" action="{% url 'like' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button id="action-button" type="submit">
+                                <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-up"></i> {{ post.likes.all.count }}</p>
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{% url 'dislike' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button id="action-button" type="submit">
+                                <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
+                            </button>
+                        </form>
+
+                        <form method="POST" action="{% url 'post-detail' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button id="action-button" type="submit">
+                                <i class="fa fa-comments-o"></i>
+                            </button>
+                        </form>
+                        
+                        {% if user.is_superuser %}
+                        <form method="POST" action="{% url 'post-pin' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.path }}">
+                            <button id="action-button" type="submit">
+                                <i class="fa-solid fa-thumbtack"></i>
+                            </button>
+                        </form>
+                        {% endif %}
+
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
             </div>
         </div>
-        {% endfor %}
-
-        {% if feed.count > 10 %}
-        <nav aria-label="Page navigation example">
-            <ul class="pagination mt-3">
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>
-              {% if feed.has_previous %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.previous_page_number }}">Previous</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">Previous</a></li>
-              {% endif %}
-              <li class="page-item disabled"><a class="page-link" href="#">{{feed.number}} of {{last_page}}</a></li>
-              {% if feed.has_next %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ feed.next_page_number }}">Next</a></li>
-              {% else %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Next</a></li>
-              {% endif %}
-              <li class="page-item"><a class="page-link" href="{% url 'home' %}?page={{ last_page }}">Last</a></li>
-            </ul>
-        </nav>
-        {% endif %}
-        
     </div>
-
-    <div id="summary-post-child">
-        <div id="pinned-posts"><h4><i class="fa-solid fa-thumbtack fa-fw"></i>Pinned posts</h4></div>
-        {% for post in all %}
-            {% if post.pinned %}
-                <form method="POST" action="{% url 'post-pin' post.pk %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{{ request.path }}"/>
-                    <button id="action-button" type="submit">
-                        <i class="fa-solid fa-thumbtack"></i>
-                    </button>
-                </form>
-                <div id="post-topline" class="d-flex flex-row">
-                    {% if user.is_superuser %}
-                    {% endif %}
-                    <a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}
-                </div>
-                <div class="position-relative border-bottom">
-                    <p id="post-data"><strong>{{ post.title }}</strong></p>
-                    <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:55}}</p></div>
-                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-                </div>
-            {% endif %}
-        {% endfor %}
-        <div id="other-posts"><h4><i class="fa-solid fa-file-pen fa-fw"></i>Other posts</h4></div>
-        {% for post in all %}
-            {% if not post.pinned %}
-            <div id="post-topline">
-                {% if user.is_superuser %}
-                    <form method="POST" action="{% url 'post-pin' post.pk %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.path }}"/>
-                        <button id="action-button" type="submit">
-                            <i class="fa-solid fa-thumbtack"></i>
-                        </button>
-                    </form>
-                {% endif %}
-                <a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}
-            </div>
-            <div class="position-relative border-bottom">
-                <p id="post-data"><strong>{{ post.title }}</strong></p>
-                <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:30}}</p></div>
-                <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-            </div>
-            {% endif %}
-        {% endfor %}
-    </div>
-
 </div>
 
 {% endblock content %}
