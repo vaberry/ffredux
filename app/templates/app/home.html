@@ -110,21 +110,21 @@
         <div id="pinned-posts"><h4><i class="fa-solid fa-thumbtack fa-fw"></i>Pinned posts</h4></div>
         {% for post in all %}
             {% if post.pinned %}
+                <form method="POST" action="{% url 'post-pin' post.pk %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.path }}"/>
+                    <button id="action-button" type="submit">
+                        <i class="fa-solid fa-thumbtack"></i>
+                    </button>
+                </form>
                 <div id="post-topline" class="d-flex flex-row">
                     {% if user.is_superuser %}
-                    <form method="POST" action="{% url 'post-pin' post.pk %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="next" value="{{ request.path }}"/>
-                        <button id="action-button" type="submit">
-                            <i class="fa-solid fa-thumbtack"></i>
-                        </button>
-                    </form>
                     {% endif %}
                     <a class="text-primary" href="{% url 'profile' post.author.pk %}">@{{ post.author }}</a> {{ post.created_on }}
                 </div>
                 <div class="position-relative border-bottom">
                     <p id="post-data"><strong>{{ post.title }}</strong></p>
-                    <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:30}}</p></div>
+                    <div id="post-data"><p>{{ post.body | linebreaks |  truncatechars:55}}</p></div>
                     <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
                 </div>
             {% endif %}
