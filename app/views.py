@@ -187,6 +187,16 @@ class PostPinView(LoginRequiredMixin,View):
                 post.pinned = False
             post.save()
             next = request.POST.get('next')
+
+            p = Paginator(posts,10)
+            page_num = request.GET.get('page',1)
+            try:
+                page = p.page(page_num)
+            except EmptyPage:
+                page = p.page(1)
+            context = {
+                'feed': page,
+            }
             return HttpResponseRedirect(next)
 
 class PostCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
