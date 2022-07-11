@@ -26,10 +26,6 @@ body {
             }
         }
 
-        form {
-            width: 700px;
-        }
-
 
         /**Reset Bootstrap*/
         .dropdown-toggle::after {
@@ -79,7 +75,7 @@ body {
               <div style="width: auto;" class="form-group">
                 <form id="post-form" class="mt-1" method="POST">
                     {% csrf_token %}
-                    {{ form }}
+                    {{ form | crispy }}
                     <div class="d-grid 2">
                         <button class="btn btn-success mt-1 mb-1">Submit</button>
                     </div>
@@ -123,7 +119,7 @@ body {
             <div class="d-flex justify-content-between align-items-center">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="mr-2">
-                      <a href="{% url 'profile' post.author.pk %}"><img class="rounded-circle" width="45" src="{{ post.author.profile.picture.url  }}"></a>
+                      <a href="{% url 'profile' post.author.pk %}"><img class="rounded-circle" width="45" height="45" src="{{ post.author.profile.picture.url  }}"></a>
 
                     </div>
                     <div class="ml-2">
@@ -142,7 +138,7 @@ body {
 
           <a style="text-decoration: none; color: black;" href="{% url 'post-detail' post.pk %}"><p class="card-text mb-5">{{ post.body }}</p></a>
         </div>
-        <div class="card-footer">
+        <div class="card-footer socials">
           <div class="socials">
             <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
                 {% csrf_token %}
@@ -177,7 +173,7 @@ body {
       {% endif %}
       {% endfor %}
 
-      {% if feed.count != 10 %}
+      {% if feed.count > 10 %}
       <nav aria-label="Page navigation example">
           <ul class="pagination mt-3">
             <li class="page-item"><a class="page-link" href="{% url 'home' %}?page=1">First</a></li>

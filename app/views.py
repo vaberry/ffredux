@@ -187,7 +187,8 @@ class PostPinView(LoginRequiredMixin,View):
                 post.pinned = False
             post.save()
             next = request.POST.get('next')
-
+            
+            posts = Post.objects.all().order_by('-created_on')
             p = Paginator(posts,10)
             page_num = request.GET.get('page',1)
             try:
@@ -197,7 +198,7 @@ class PostPinView(LoginRequiredMixin,View):
             context = {
                 'feed': page,
             }
-            return HttpResponseRedirect(next)
+            return HttpResponseRedirect(next,context)
 
 class PostCommentDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Comment

@@ -14,7 +14,6 @@ class PostForm(forms.ModelForm):
         label='',
         widget=forms.Textarea(
             attrs={'rows': '1',
-                    'columns': '12',
                     'placeholder': 'Title...'}
         ))   
 
