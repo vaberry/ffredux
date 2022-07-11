@@ -17,12 +17,22 @@ from .forms import PostForm,CommentForm,FranchiseForm,UpdatePickForm,ThreadForm,
 years=['2022','2023']
 
 class Test(LoginRequiredMixin,View):
-    def get(self,request,*args,**kwargs):
-        owners = Owner.objects.all().order_by('teamname')
+
+
+    #### ADD pk BACK INTO ARGUMENTS!!!!!
+
+    def get(self, request, *args, **kwargs):
+        post = Post.objects.get(pk='11')
+        form = CommentForm()
+        comments = Comment.objects.filter(post=post).order_by('created_on')
+
         context = {
-            'owners':owners,
+            'post': post,
+            'form': form,
+            'comments': comments,
         }
-        return render(request,'app/test.html',context)
+
+        return render(request, 'app/test.html', context)
 
 
 

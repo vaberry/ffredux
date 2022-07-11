@@ -42,7 +42,6 @@
   
 </style>
 
-
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
@@ -52,7 +51,7 @@
           <div class="d-flex justify-content-center row">
               <div class="d-flex flex-column col-md-8">
                   <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
-                      <div class="profile-image"><img class="rounded-circle" src="https://i.imgur.com/t9toMAQ.jpg" width="70"></div>
+                      <div class="profile-image"><img class="rounded-circle" src="{{ post.author.profile.picture }}" width="70"></div>
                       <div class="d-flex flex-column-reverse flex-grow-0 align-items-center votings ml-1"><i class="fa fa-sort-up fa-2x hit-voting"></i><span>127</span><i class="fa fa-sort-down fa-2x hit-voting"></i></div>
                       <div class="d-flex flex-column ml-3">
                           <div class="d-flex flex-row post-title">
