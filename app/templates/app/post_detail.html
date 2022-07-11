@@ -1,80 +1,119 @@
-{% extends 'app/home.html' %}
-{% load crispy_forms_tags %}
-
+{% extends 'app/main.html' %}
+{% load crispy_forms_tags%}
 {% block content %}
+<style>
 
-<div id="detail-container">
-    <div id="post-detail">
-        <div class="d-flex flex-row">
-            <a class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a><a style="color: #000; margin-left: 5px;" href="">{{ post.created_on }}</a>            
-            {% if request.user == post.author %}
-                <a href="{% url 'post-delete' post.pk %}"><i class="fas fa-trash fa-fw" style="color: #333;"></i></a>
-                <a href="{% url 'post-edit' post.pk %}"><i class="far fa-edit fa-fw" style="color: #333;"></i></a>
-            {% endif %}
-        </div>
-        <div class="position-relative px-3 mt-3">
-            <h3>{{ post.title }}</h3>
-            <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-        </div>
-        <div class="position-relative px-3 mt-3">
-            <p>{{ post.body|linebreaks }}</p>
-            <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-        </div>
+  body {
+      background-color: #eee;
+      
+  }
+  
+  .bdge {
+    height: 21px;
+    background-color: orange;
+    color: #fff;
+    font-size: 11px;
+    padding: 8px;
+    border-radius: 4px;
+    line-height: 3px;
+  }
+  
+  .comments {
+    text-decoration: underline;
+    text-underline-position: under;
+    cursor: pointer;
+  }
+  
+  .dot {
+    height: 7px;
+    width: 7px;
+    margin-top: 3px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+  }
+  
+  .hit-voting:hover {
+    color: blue;
+  }
+  
+  .hit-voting {
+    cursor: pointer;
+  }
+  
+</style>
 
-        <div class="d-flex flex-row">
-            <form method="POST" action="{% url 'like' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-up"><span class="px-1">{{ post.likes.all.count }}</span></i></p>
-                </button>
-            </form>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-            <form method="POST" action="{% url 'dislike' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <p><i class="far fa-thumbs-down"><span class="px-1">{{ post.dislikes.all.count }}</span></i></p>
-                </button>
-            </form>
-
-            {% if user.is_superuser %}
-            <form method="POST" action="{% url 'post-pin' post.pk %}">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
-                <button id="action-button" type="submit">
-                    <i class="fa-solid fa-thumbtack"></i>
-                </button>
-            </form>
-            {% endif %}
-        </div>
-
-
-    </div>
-
-    <div id="comment-detail">
-        <h5 class="mt-2 px-3">Add a Comment</h5>
-        <form method="POST">
-            {% csrf_token %}
-            {{ form | crispy }}
-            <div class="d-grid gap-2">
-                <button class="btn btn-success mt-3 mb-3">Submit</button>
-            </div>
-        </form>
-        <div class="px-3">
-            {% for comment in comments %}
-                {% if request.user == comment.author %}
-                    <p style="background-color:#cee0d7;"><a style="background-color:#cee0d7;" class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ comment.author }}</a> {{ comment.created_on }}
-                        <a href="{% url 'comment-delete' comment.post.pk comment.pk%}" style="color: #333;"><i class="fas fa-trash"></i></a>
-                    </p>
-                {% else %}
-                    <p style="background-color:#f2dec4"><a style="background-color:#f2dec4;" class="text-primary" href="{% url 'profile' post.author.profile.pk %}">@{{ comment.author }}</a> {{ comment.created_on }}</p>
-                {% endif %}
-            <p>{{ comment.comment|linebreaks }}</p>
-            {% endfor %}    
-        </div>
-    </div>
-</div>
+  <div class="container mt-5 mb-5">
+          <div class="d-flex justify-content-center row">
+              <div class="d-flex flex-column col-md-8">
+                  <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                      <div class="profile-image"><img class="rounded-circle" src="{{ post.author.profile.picture.url }}" width="70" height="70"></div>
+                      <div class="d-flex flex-column ml-3">
+                          <div class="d-flex flex-row post-title">
+                            <span class="mr-2"><a style="text-decoration: none;" href="{% url 'profile' post.author.profile.pk %}">@{{ post.author }}</a></span><h5>{{ post.title }}</h5>
+                          </div>
 
 
-{% endblock content %}
+                          <div class="ml-3">
+                            <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button id="action-button" type="submit">
+                                    <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-up"></i> {{ post.likes.all.count }}</p>
+                                </button>
+                            </form>
+                
+                            <form style="display: inline; text-decoration: none;" method="POST" action="{% url 'dislike' post.pk %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button id="action-button" type="submit">
+                                    <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
+                                </button>
+                            </form>
+                          </div>
+
+
+
+                      </div>
+                  </div>
+
+
+                  
+                  <div class="coment-bottom bg-white p-2 px-4">
+                      <div class="d-flex flex-row add-comment-section mt-4 mb-4 "><img class="img-fluid img-responsive rounded-circle mr-2" src="{{ request.user.profile.picture.url }}" width="38"></div>
+                      <div class="border-bottom">
+                        <form method="POST">
+                          {% csrf_token %}
+                          {{ form | crispy }}
+                          <div class="d-grid gap-2">
+                              <button class="btn btn-success mt-3 mb-3">Submit</button>
+                          </div>
+                        </form>  
+                      </div>
+
+                      {% for comment in comments %}
+                        <div class="commented-section mt-2">
+                            <div class="d-flex flex-row align-items-center commented-user">
+                                <h5 class="mr-2"><a style="text-decoration: none;" href="{% url 'profile' comment.author.pk %}">@{{ comment.author }}</a></h5><span class="dot mb-1"></span><span class="mb-1 ml-2">{{ comment.created_on }}</span></div>
+                            <div class="comment-text-sm mb-3"><span>{{ comment.comment }}</span></div>
+                        </div>
+
+                        <div class="card-footer socials">
+                          <div class="socials"></div>
+                        </div>
+                      {% endfor %}
+
+
+                      
+                  </div>
+      </div>
+      </div>
+      </div>
+      </div>
+  
+  {% endblock content %}

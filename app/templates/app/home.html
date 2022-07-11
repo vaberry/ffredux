@@ -156,7 +156,8 @@ body {
                 </button>
             </form>
 
-            <a style="display: inline;" href="{% url 'post-detail' post.pk %}"><i class="fa fa-comments-o"></i></a>
+            <a style="display: inline; margin-left: 3px;" href="{% url 'post-detail' post.pk %}"><i class="fa fa-comments-o"></i></a>
+
 
             {% if user.is_superuser %}
             <form style="display: inline;" method="POST" action="{% url 'post-pin' post.pk %}">
