@@ -18,23 +18,20 @@ years=['2022','2023']
 
 class Test(LoginRequiredMixin,View):
 
-
-    #### ADD pk BACK INTO ARGUMENTS!!!!!
-
-    def get(self, request, *args, **kwargs):
-        post = Post.objects.get(pk='11')
-        form = CommentForm()
-        comments = Comment.objects.filter(post=post).order_by('created_on')
+    def get(self,request,*args,**kwargs):
+        profile = Owner.objects.get(user=request.user)
+        user = request.user
+        posts = Post.objects.filter(author=user).order_by('-created_on')
+        picks = Pick.objects.all().order_by('year','round','pick')
 
         context = {
-            'post': post,
-            'form': form,
-            'comments': comments,
+            'user': user,
+            'profile': profile,
+            'posts': posts,
+            'picks': picks,
         }
 
         return render(request, 'app/test.html', context)
-
-
 
 class Landing(View):
     def dispatch(self, request,*args, **kwargs):

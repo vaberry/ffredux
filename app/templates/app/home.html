@@ -33,13 +33,21 @@ body {
             display: none;
 
         }
+  
+  #left-container {
+    height: 90vh;
+    overflow: scroll;
+  }
 
 </style>
 
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+
 
 <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
         crossorigin="anonymous">
@@ -54,18 +62,14 @@ body {
 
 <div class="container-fluid gedf-wrapper">
   <div class="row">
-    <div class="col-md-8 gedf-main">
+    <div id="left-container" class="gedf-main mr-5" style="width: 40rem;">
 
         <!--- \\\\\\\Post-->
       <div class="card gedf-card">
         <div class="card-header">
           <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
               <li class="nav-item">
-                  <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make
-                      a publication</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" id="images-tab" data-toggle="tab" role="tab" aria-controls="images" aria-selected="false" href="#images">Images</a>
+                  <a class="nav-link active" id="posts-tab" data-toggle="tab" href="#posts" role="tab" aria-controls="posts" aria-selected="true">Make a Post</a>
               </li>
           </ul>
         </div>
@@ -111,7 +115,7 @@ body {
       </nav>
       {% endif %} 
 
-      {% for post in feed %}
+      {% for post in all %}
       {% if not post.pinned %}
       <div class="card gedf-card">                 
 
@@ -136,7 +140,7 @@ body {
               <h5 class="card-title">{{ post.title }}</h5>
           </a>
 
-          <a style="text-decoration: none; color: black;" href="{% url 'post-detail' post.pk %}"><p class="card-text mb-5">{{ post.body }}</p></a>
+          <a style="text-decoration: none; color: black;" href="{% url 'post-detail' post.pk %}"><p class="card-text mb-5">{{ post.body | truncatechars:400 }}</p></a>
         </div>
         <div class="card-footer socials">
           <div class="socials">
@@ -195,30 +199,61 @@ body {
       {% endif %} 
         <!-- Post /////-->
     </div>
+    
+    <div>
+      <h3 class="">Pinned Posts</h3>
+      <ul style="list-style: none;">
+        {% for post in all %}
+        {% if post.pinned %}
+        <li>
+          <div class="card gedf-card" style="width: 20rem;">
+            <div class="card-body">
+                <span><h5><a href="{% url 'profile' post.author.pk %}" style="text-decoration: none;">@{{post.author}}</a></h5><p class="mb-3">{{post.created_on}}</p></span>
+                <h5 class="card-title"><a href="{% url 'post-detail' post.pk %}" style="text-decoration: none; color: black">{{post.title}}</a></h5>
+                <a href="{% url 'post-detail' post.pk %}" style="text-decoration: none; color: black;"><p class="card-text mb-3">{{post.body | truncatechars:250 }}</p></a>
 
-    <h3 class="ml-5">Pinned Posts</h3>
-    <div class="col-md-3 flex-column">
-      <div>
-        <ul style="list-style: none;">
-          <li>
-            {% for post in feed %}
-            {% if post.pinned %}
-            <div class="card gedf-card">
-              <div class="card-body">
-                  <h5 class="card-title">{{post}}</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                      card's content.</p>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
-              </div>
+
+                <div class="card-footer socials">
+                  <div class="socials">
+                    <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-up"></i> {{ post.likes.all.count }}</p>
+                        </button>
+                    </form>
+        
+                    <form style="display: inline; text-decoration: none;" method="POST" action="{% url 'dislike' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
+                        </button>
+                    </form>
+        
+                    <a style="display: inline; margin-left: 3px;" href="{% url 'post-detail' post.pk %}"><i class="fa fa-comments-o"></i></a>
+        
+        
+                    {% if user.is_superuser %}
+                    <form style="display: inline;" method="POST" action="{% url 'post-pin' post.pk %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button id="action-button" type="submit">
+                            <i class="fa-solid fa-thumbtack"></i>
+                        </button>
+                    </form>
+                    {% endif %}
+                  </div>
+                </div>
+
+
             </div>
-            {% endif %}
-            {% endfor %}
-          </li>
-        </ul>
-      </div>  
-    </div>              
+          </div>
+        </li>
+        {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
   </div>
 </div>
 

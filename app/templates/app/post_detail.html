@@ -51,7 +51,7 @@
   <div class="container mt-5 mb-5">
           <div class="d-flex justify-content-center row">
               <div class="d-flex flex-column col-md-8">
-                  <div class="d-flex flex-row align-items-center text-left comment-top p-2 bg-white border-bottom px-4">
+                  <div class="d-flex flex-row text-left comment-top p-2 bg-white border-bottom px-4">
                       <div class="profile-image"><img class="rounded-circle" src="{{ post.author.profile.picture.url }}" width="70" height="70"></div>
                       <div class="d-flex flex-column ml-3">
                           <div class="d-flex flex-row post-title">
@@ -59,7 +59,7 @@
                           </div>
 
 
-                          <div class="ml-3">
+                          <div>
                             <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
                                 {% csrf_token %}
                                 <input type="hidden" name="next" value="{{ request.path }}">
@@ -76,12 +76,11 @@
                                 </button>
                             </form>
                           </div>
-
-
-
+                          <div>
+                            <p>{{post.body}}</p>
+                          </div>
                       </div>
                   </div>
-
 
                   
                   <div class="coment-bottom bg-white p-2 px-4">
