@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 
-AWS_STORAGE_BUCKET_NAME = 'nwoaffl-static'
+AWS_STORAGE_BUCKET_NAME = 'ff-nwoaffl'
 
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
