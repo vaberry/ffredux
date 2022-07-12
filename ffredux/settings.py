@@ -179,8 +179,11 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 ...
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+# AUTH_USER_MODEL = 'account.Account'
+# AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_ACCESS_KEY_ID='W24SRQJ5EUYFNFES7YGC'
+AWS_SECRET_ACCESS_KEY='8e8/L20CKD0S614xUar0PWtTTnaRh0/lrqeYdmfxpYM'
 AWS_STORAGE_BUCKET_NAME = 'ff-nwoaffl'
 AWS_S3_ENDPOINT_URL = 'https://sfo3.digitaloceanspaces.com'
 AWS_S3_OBJECT_PARAMETERS = {
@@ -190,7 +193,7 @@ AWS_LOCATION = 'static'
 AWS_S3_REGION_NAME='us-west-1'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'ffredux/static'),
 ]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
