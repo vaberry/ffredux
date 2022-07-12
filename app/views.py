@@ -23,6 +23,7 @@ class Test(LoginRequiredMixin,View):
         user = request.user
         posts = Post.objects.filter(author=user).order_by('-created_on')
         picks = Pick.objects.all().order_by('year','round','pick')
+        trades = Trade.objects.all().order_by('-trade_date')
 
         context = {
             'user': user,

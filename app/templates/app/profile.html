@@ -1,19 +1,15 @@
 {% extends 'app/main.html' %}
-{% block content%}
-
+{% block content %}
 <style>
-body{
+  body{
 background:#eee;
-}
-
-a {
-    text-decoration: none;
 }
 
 #pick-box {
   height: 70vh;
   overflow: scroll;
 }
+
 .fs35 {
     font-size: 35px !important;
 }
@@ -651,7 +647,7 @@ a {
         <div class="media clearfix">
           <div class="media-left pr30">
             <a href="#">
-              <img class="media-object mw150" src="{{ profile.picture.url }}" alt="..." width="150" height="150">
+              <img class="media-object mw150 rounded-circle" src="{{ profile.picture.url }}" alt="..." width="150" height="150">
             </a>
           </div>                      
           <div class="media-body va-m">
@@ -700,103 +696,83 @@ a {
                     {% endif %}
                     {% endfor %}
                 </div>
-            </div>
-            </div>
-          </div>
-          <div class="panel">
-            <div class="panel-heading">
-              <span class="panel-icon">
-                <i class="fa fa-trophy"></i>
-              </span>
-              <span class="panel-title">Roster</span>
-            </div>
-            <div class="panel-body pb5">
-              <p><i>(in progress)</i></p>
+              </div>
             </div>
           </div>
-
         </div>
         <div class="col-md-8">
 
           <div class="tab-block">
             <ul class="nav nav-tabs">
               <li>
-                <a href="#tab1" data-toggle="tab"style="text-decoration: none;">Posts</a>
+                <a href="#tab1" data-toggle="tab">Activity</a>
+              </li>
+              <!-- <li>
+                <a href="#tab1" data-toggle="tab">Social</a>
               </li>
               <li>
-                <a href="#tab2" data-toggle="tab" style="text-decoration: none;">Roster</a>
-              </li>
+                <a href="#tab1" data-toggle="tab">Media</a>
+              </li> -->
             </ul>
             <div class="tab-content p30" style="height: 730px;">
-              <div id="tab1" class="tab-pane active">
-
-                {% for post in posts %}
-                {% if profile.user == post.author %}
-                <div class="">
-                  <div class="">
-                    <h5 class="m"><img class="" src="{{ profile.picture.url }}" width="50" height="50" alt="...">
-                      @{{ profile.user }}
-                      <small> {{ post.created_on}} </small>
-                    </h5>
-                    <div class="position-relative px-3 mt-3">
-                        <h3>{{ post.title }}</h3>
-                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-                    </div>
-                    <div class="position-relative px-3 mt-3" style="overflow: hidden;">
-                        <p>{{ post.body|linebreaks|truncatechars:400}}</p>
-                        <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
-                    </div>
-
-                    <div class="media-links">
-                      <div class="card-footer socials">
-                        <div class="socials">
-                          <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
-                              {% csrf_token %}
-                              <input type="hidden" name="next" value="{{ request.path }}">
-                              <button id="action-button" type="submit">
-                                  <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-up"></i> {{ post.likes.all.count }}</p>
-                              </button>
-                          </form>
-              
-                          <form style="display: inline; text-decoration: none;" method="POST" action="{% url 'dislike' post.pk %}">
-                              {% csrf_token %}
-                              <input type="hidden" name="next" value="{{ request.path }}">
-                              <button id="action-button" type="submit">
-                                  <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
-                              </button>
-                          </form>
-              
-                          <a style="display: inline; margin-left: 3px;" href="{% url 'post-detail' post.pk %}"><i class="fa fa-comments-o"></i></a>
-              
-              
-                          {% if user.is_superuser %}
-                          <form style="display: inline;" method="POST" action="{% url 'post-pin' post.pk %}">
-                              {% csrf_token %}
-                              <input type="hidden" name="next" value="{{ request.path }}">
-                              <button id="action-button" type="submit">
-                                  <i class="fa-solid fa-thumbtack"></i>
-                              </button>
-                          </form>
-                          {% endif %}
-                        </div>
-                      </div>
+              <div id="tab1">
+              {% for post in posts %}
+              {% if profile.user == post.author %}
+  
+  
+                <h5 class="m"><img class="rounded-circle" src="{{ profile.picture.url }}" width="50" height="50" alt="...">
+                  @{{ profile.user }}
+                  <small> {{ post.created_on}} </small>
+                </h5>
+                <div class="position-relative px-3 mt-3">
+                    <h3>{{ post.title }}</h3>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+                <div class="position-relative px-3 mt-3" style="overflow: hidden;">
+                    <p>{{ post.body|linebreaks|truncatechars:400}}</p>
+                    <a href="{% url 'post-detail' post.pk %}" class="stretched-link"></a>
+                </div>
+  
+                <div class="media-links">
+                  <div class="card-footer socials">
+                    <div class="socials">
+                      <form style="display: inline;" method="POST" action="{% url 'like' post.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                          <button id="action-button" type="submit">
+                              <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-up"></i> {{ post.likes.all.count }}</p>
+                          </button>
+                      </form>
+          
+                      <form style="display: inline; text-decoration: none;" method="POST" action="{% url 'dislike' post.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                          <button id="action-button" type="submit">
+                              <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
+                          </button>
+                      </form>
+          
+                      <a style="display: inline; margin-left: 3px;" href="{% url 'post-detail' post.pk %}"><i class="fa fa-comments-o"></i></a>
+          
+          
+                      {% if user.is_superuser %}
+                      <form style="display: inline;" method="POST" action="{% url 'post-pin' post.pk %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="next" value="{{ request.path }}">
+                          <button id="action-button" type="submit">
+                              <i class="fa-solid fa-thumbtack"></i>
+                          </button>
+                      </form>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
-
-
+  
+  
+  
                 {% endif %}
                 {% endfor %}
               </div>
-              <div id="tab2" class="tab-pane">
-
-                <ul style="list-style: none;">
-                    <li><i>(in progress...)</i></li>
-                </ul>
-
-              </div>
-              <div id="tab3" class="tab-pane"></div>
-              <div id="tab4" class="tab-pane"></div>
             </div>
           </div>
         </div>
