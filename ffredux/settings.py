@@ -21,18 +21,14 @@ from urllib.parse import urlparse
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR=os.path.join(BASE_DIR,'ffredux','static')
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
-# SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = os.getenv("DEBUG",False) == True
 DEBUG = True
 
-# ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1,localhost").split(",")
 ALLOWED_HOSTS = ["www.nwoaffl.com","nwoaffl.com","octopus-app-s69md.ondigitalocean.app","sea-turtle-app-e659n.ondigitalocean.app","127.0.0.1","localhost"]
 
 # Application definition
@@ -129,7 +125,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -141,11 +136,9 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 
