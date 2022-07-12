@@ -2,4 +2,5 @@ db.sqlite3
 *.pyc
 /vars
 backup.html
-ffredux/cdn
+ffredux/cdn/conf.py
+ffredux/cdn/backend.py
