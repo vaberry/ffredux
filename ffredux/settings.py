@@ -33,7 +33,6 @@ ALLOWED_HOSTS = [
     "www.nwoaffl.com",
     "nwoaffl.com",
     "octopus-app-s69md.ondigitalocean.app",
-    "sea-turtle-app-e659n.ondigitalocean.app",
     "127.0.0.1",
     "localhost"
     ]
@@ -180,10 +179,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 # AUTH_USER_MODEL = 'account.Account'
-# AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
-AWS_ACCESS_KEY_ID='W24SRQJ5EUYFNFES7YGC'
-AWS_SECRET_ACCESS_KEY='8e8/L20CKD0S614xUar0PWtTTnaRh0/lrqeYdmfxpYM'
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = 'ff-nwoaffl'
 AWS_S3_ENDPOINT_URL = 'https://sfo3.digitaloceanspaces.com'
 AWS_S3_OBJECT_PARAMETERS = {
