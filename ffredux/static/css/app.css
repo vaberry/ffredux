@@ -18,7 +18,6 @@
 
 #start-negotiations-child {
   overflow: scroll;
-
 }
 
 #completed-trades-child {
@@ -65,10 +64,6 @@
 #trade-details-container {
   overflow: scroll;
 }
-
-
-
-
 
 #detail-container {
   display: grid;
@@ -138,7 +133,6 @@
 #message1 > .date1 {
   font-size: small;
 }
-
 
 #message2 {
   text-align: right;
@@ -245,7 +239,6 @@
   padding-bottom: 2%;
 }
 
-
 #feed-container {
   display: grid;
   gap: 1.5rem;
@@ -336,10 +329,6 @@
   margin-left: 20px;
 }
 
-
-
-
-
 * {
   box-sizing: border-box;
   padding: 0;
@@ -409,8 +398,6 @@ body {
   margin-left: 20px;
 }
 
-
-
 h4 {
   padding: 5px;
   border-radius: 25px;
@@ -445,7 +432,6 @@ body {
   padding: 20px;
   margin: 40px auto;
 }
-
 
 table {
   width: 100%;
