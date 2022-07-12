@@ -47,10 +47,6 @@
   overflow: scroll;
 }
 
-
-
-
-
 #trade-room-container {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -116,7 +112,6 @@
   height: 80vh;
   overflow: scroll;
 }
-
 
 #message1 {
   text-align: left;

@@ -95,45 +95,8 @@ AUTHENTICATION_BACKENDS = [
 
 WSGI_APPLICATION = 'ffredux.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-# if os.getenv("DATABASE_URL","") != "":
-#     r = urlparse(os.environ.get("DATABASE_URL"))
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.postgresql_psycopg2",
-#             "NAME": os.path.relpath(r.path,"/"),
-#             "USER": r.username,
-#             "PASSWORD": r.password,
-#             "HOST": r.hostname,
-#             "PORT": r.port,
-#             "OPTIONS": {"sslmode":"require"},
-
-#         }
-#     }
-# else:
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.postgresql_psycopg2",
-#         "NAME": "db",
-#         "USER": "db",
-#         "PASSWORD": "AVNS_ACtAEacjkbZM9SDoUXn",
-#         "HOST": "app-59423da4-d3ac-4d59-83fc-32b9f928e1bf-do-user-11866930-0.b.db.ondigitalocean.com",
-#         "PORT": "25060",
-#         "OPTIONS": {"sslmode":"require"},
-
-#     }
-# }
 
 DATABASES = {
     "default": {
@@ -183,15 +146,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATIC_ROOT = STATIC_ROOT = BASE_DIR / "staticfiles-cdn" # dev example
-
-# from .cdn.conf import *  # noqa...
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-# import environ
-# env = environ.Env()
-#TESTING
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 
@@ -208,16 +162,12 @@ AWS_S3_REGION_NAME='us-east-1'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'ffredux/static'),]
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
-# STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 LOGIN_REDIRECT_URL = '/home'
-
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
