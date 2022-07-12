@@ -104,11 +104,11 @@ WSGI_APPLICATION = 'ffredux.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "defaultdb",
+        "NAME": "nwoaffl-connection-pool",
         "USER": "doadmin",
         "PASSWORD": "AVNS_8YVX-ElBNgSytmh8bnq",
         "HOST": "dbaas-db-1061630-do-user-11933898-0.b.db.ondigitalocean.com",
-        "PORT": "25060",
+        "PORT": "25061",
         "OPTIONS": {"sslmode":"require"},
 
     }
