@@ -641,10 +641,9 @@ class CommToolsView(LoginRequiredMixin,View):
                         )
                         new_pick.save()
                 form.save()
-                
+                print(form.instance.manager)
                 franchise_form = FranchiseForm()
                 pick_form = UpdatePickForm()
-
                 context = {
                     'franchise_form': franchise_form,
                     'pick_form': pick_form,

@@ -1,0 +1,79 @@
+{% extends 'app/main.html' %}
+{% block content%}
+
+<style>
+  #trade-table {
+    display: grid;
+    grid-template-columns: 3fr 1fr 1fr;
+    margin-left: 30px;
+  }
+</style>
+
+<div id="trade-table" class="table-responsive">
+  <div>
+    <table class="table table-striped text-successtable-border border-light">
+      <thead class="border-light">
+        <tr>
+          {% for owner in owners %}
+            {% if owner.user == trade.trader_one %}
+              {% if owner.teamname %}
+                <th scope="row"><strong>{{ owner.teamname }}</strong></th>
+              {% else }
+                <th scope="row"><strong>{{ owner.user }}</strong></th>
+              {% endif %}
+            {% endif%}
+          {% endfor %}
+
+          {% for owner in owners %}
+            {% if owner.user == trade.trader_two %}
+              {% if owner.teamname %}
+                <th scope="row"><strong>{{ owner.teamname }}</strong></th>
+              {% else }
+                <th scope="row"><strong>{{ owner.user }}</strong></th>
+              {% endif %}
+            {% endif%}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="fas fa-check text-success"></i></td>
+          <td><i class="fas fa-times text-danger"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="table table-striped text-successtable-border border-light">
+      <thead class="border-light">
+        <tr>
+          <th scope="row"><strong>Trader1</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="fas fa-check text-success"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <table class="table table-striped text-successtable-border border-light">
+      <thead class="border-light">
+        <tr>
+          <th scope="row"><strong>Trader2</strong></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><i class="fas fa-check text-success"></i></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+{% endblock content%}
