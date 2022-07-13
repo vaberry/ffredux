@@ -21,99 +21,34 @@
 					</select>
 					<input type="submit" value="Start conversation">
 				</form>
-				<div class="px-0">
-					<div class="bg-white">
-			  
-					  <div class="bg-gray px-4 py-2 bg-light">
-						<p class="h5 mb-0 py-1">Chats</p>
-					  </div>
-
-					  <div class="messages-box">
-						<div class="list-group rounded-0">
-						{% for thread in threads.all %}
-						  <a class="list-group-item list-group-item-action">
-						{% if thread.user == request.user %}
-							<div class="media"><img src="{{ thread.receiver.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
-						{% else %}
-							<div class="media"><img src="{{ thread.user.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
-						{% endif %}
-							  <div class="media-body ml-4">
-								<div class="d-flex align-items-center justify-content-between mb-1">
-								  <h6 class="mb-0">
-									<form method="GET" action="{% url 'thread' thread.pk%}">
-										{% if thread.user == request.user %}
-										<button type="submit" class="btn btn secondary">@{{ thread.receiver }}</button>
-										{% else %}
-										<button type="submit" class="btn btn secondary">@{{ thread.user }}</button>
-										{% endif %}
-									</form>
-								  </h6>
-								  <!-- <small class="small font-weight-bold">25 Dec</small> -->
-								</div>
-								<!-- <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> -->
-							  </div>
-							</div>
-						  </a>
-						  {% endfor %}
-						</div>
-					  </div>
-					</div>
-				</div>
+				<br>
+				<br>
+				<table class="table table-striped table-bordered table-hover" style="min-width:max-content">
+					<div><h4 style="background-color:lightskyblue; min-width: max-content;"><i class="fas fa-comments fa fw" style="margin-right: 10px;"></i>Your conversations</h4></div>
+					{% for thread in threads.all %}
+					<tr>
+						<td>
+							<form method="GET" action="{% url 'thread' thread.pk%}">
+								{% if thread.user == request.user %}
+								<button type="submit" class="btn btn secondary">{{ thread.receiver }}</button>
+								{% else %}
+								<button type="submit" class="btn btn secondary">{{ thread.user }}</button>
+								{% endif %}
+							</form>
+						</td>
+					</tr>
+					{% endfor %}
+				</table>
 			</div>
 		</div>
 	</div>
-</div>
-
-
-
-				<div class="px-0">
-					<div class="bg-white">
-			  
-					  <div class="bg-gray px-4 py-2 bg-light">
-						<p class="h5 mb-0 py-1">Chats</p>
-					  </div>
-			  
-					  <div class="messages-box">
-						<div class="list-group rounded-0">
-							{% for thread in threads.all %}
-						  <a class="list-group-item list-group-item-action">
-							{% if thread.user == request.user %}
-							<div class="media"><img src="{{ thread.receiver.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
-							{% else %}
-							<div class="media"><img src="{{ thread.user.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
-							{% endif %}
-							  <div class="media-body ml-4">
-								<div class="d-flex align-items-center justify-content-between mb-1">
-								  <h6 class="mb-0">
-									<form method="GET" action="{% url 'thread' thread.pk%}">
-										{% if thread.user == request.user %}
-										<button type="submit" class="btn btn secondary">@{{ thread.receiver }}</button>
-										{% else %}
-										<button type="submit" class="btn btn secondary">@{{ thread.user }}</button>
-										{% endif %}
-									</form>
-								  </h6>
-								  <!-- <small class="small font-weight-bold">25 Dec</small> -->
-								</div>
-								<!-- <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> -->
-							  </div>
-							</div>
-						  </a>
-						  {% endfor %}
-						</div>
-					  </div>
-					</div>
-				  </div>
-				<br>
-				<br>
+	<div class="row">
+		<div class="col">
+			<div class="chat">
+				<h3 style="text-align: center; margin-top: 20%;">Choose or start a conversation</h3>
 			</div>
 		</div>
 	</div>
-	<div class="col-8 px-0">
-		<div class="chat-box-scroll px-4 py-5 chat-box bg-white">
-
-  
-	  </div>
 </div>
 		
 
