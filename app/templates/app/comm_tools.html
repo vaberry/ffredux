@@ -54,7 +54,7 @@ a {
 <div id="comm-tools-container">
     
     <div class="px-4 py-2" id="add-franchise-child">
-        <h3>Add a franchise</h1>
+        <h3>Load franchise picks</h1>
         <form method="POST">
             {% csrf_token %}
             {{ franchise_form | crispy }}
@@ -65,7 +65,7 @@ a {
         </form>
     </div>
     <div class="px-4 py-2" id="update-picks-child">
-        <h3>Update draft pick order</h1>
+        <h3>Assign draft order</h1>
         <form method="POST">
             {% csrf_token %}
             {{ pick_form | crispy }}

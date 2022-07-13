@@ -75,9 +75,13 @@
                                     <p style="display: inline-block; color: lightgray;"><i class="far fa-thumbs-down"></i> {{ post.dislikes.all.count }}</p>
                                 </button>
                             </form>
+
+                            {% if request.user == post.author %}
+                              <a href="{% url 'post-edit' post.pk %}"><i class="far fa-edit"></i></a>
+                            {% endif %}
                           </div>
                           <div>
-                            <p>{{post.body}}</p>
+                            <p>{{ post.body|linebreaks }}</p>
                           </div>
                       </div>
                   </div>

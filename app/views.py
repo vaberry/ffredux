@@ -95,12 +95,14 @@ class Home(LoginRequiredMixin,View):
 
 class ProfileView(LoginRequiredMixin,View):
     def get(self,request,pk,*args,**kwargs):
+        owners = Owner.objects.all().order_by('teamname')
         profile = Owner.objects.get(pk=pk)
         user = request.user
         posts = Post.objects.filter(author=user).order_by('-created_on')
         picks = Pick.objects.all().order_by('year','round','pick')
 
         context = {
+            'owners': owners,
             'user': user,
             'profile': profile,
             'posts': posts,
@@ -124,11 +126,13 @@ class ProfileEditView(LoginRequiredMixin,UpdateView):
 
 class PostDetailView(LoginRequiredMixin,View):
     def get(self, request, pk, *args, **kwargs):
+        owners = Owner.objects.all().order_by('teamname')
         post = Post.objects.get(pk=pk)
         form = CommentForm()
         comments = Comment.objects.filter(post=post).order_by('created_on')
 
         context = {
+            'owners':owners,
             'post': post,
             'form': form,
             'comments': comments,
@@ -139,6 +143,8 @@ class PostDetailView(LoginRequiredMixin,View):
     def post(self, request, pk, *args, **kwargs):
         post = Post.objects.get(pk=pk)
         form = CommentForm(request.POST)
+        owners = Owner.objects.all().order_by('teamname')
+
 
         if form.is_valid():
             new_comment = form.save(commit=False)
@@ -153,6 +159,7 @@ class PostDetailView(LoginRequiredMixin,View):
             notification = Notification.objects.create(notification_type=2,from_user=request.user,to_user=post.author,comment=new_comment)
 
         context = {
+            'owners': owners,
             'post': post,
             'form': form,
             'comments': comments,
@@ -203,8 +210,12 @@ class PostPinView(LoginRequiredMixin,View):
                 page = p.page(page_num)
             except EmptyPage:
                 page = p.page(1)
+
+            owners = Owner.objects.all().order_by('teamname')
+
             context = {
                 'feed': page,
+                'owners': owners,
             }
             return HttpResponseRedirect(next,context)
 
@@ -294,8 +305,9 @@ class PostSearch(LoginRequiredMixin,View):
         comment_list = Comment.objects.filter(
             Q(comment__icontains=query)
         ).order_by('-created_on')
-
+        owners = Owner.objects.all().order_by('teamname')
         context = {
+            'owners':owners,
             'post_list': post_list,
             'comment_list': comment_list,
         }
@@ -478,8 +490,10 @@ class ListThreads(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user))
         users = User.objects.all()
+        owners = Owner.objects.all().order_by('teamname')
 
         context = {
+            'owners' : owners,
             'users' : users,
             'threads': threads
         }
@@ -490,18 +504,20 @@ class CreateThread(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
         users = User.objects.all()
         username = request.POST.get('username')
+        owners = Owner.objects.all().order_by('teamname')
+
         
         context = {
+            'owners' : owners,
             'users' : users,
             'username' : username,
         }
 
         return render(request, 'app/inbox_create_thread.html', context)
 
-    def post(Self,request,*args,**kwargs):
+    def post(self,request,*args,**kwargs):
         form = ThreadForm(request.POST)
         username = request.POST.get('username')
-        print('FROM POST',username)
 
         try:
             receiver = User.objects.get(username=username)
@@ -530,7 +546,10 @@ class ThreadView(LoginRequiredMixin,View):
         threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user)).order_by('user')
         message_list = MessageModel.objects.filter(thread__pk__contains=pk)
         users = User.objects.all()
+        owners = Owner.objects.all().order_by('teamname')
+
         context = {
+            'owners' : owners,
             'users' : users,
             'threads' : threads,
             'thread': thread,
@@ -557,7 +576,6 @@ class CreateMessage(LoginRequiredMixin,View):
 
         message.save()
 
-        # if message.sender_user != request.user:
         notification = Notification.objects.create(notification_type=3,from_user=request.user,to_user=message.receiver_user,thread=thread)
 
         return redirect('thread', pk=pk)
@@ -610,10 +628,12 @@ class ClearNotifications(LoginRequiredMixin,View):
 
 class CommToolsView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):
+        owners = Owner.objects.all()
         franchise_form = FranchiseForm()
         pick_form = UpdatePickForm()
 
         context = {
+            'owners': owners,
             'franchise_form': franchise_form,
             'pick_form': pick_form,
         }        
@@ -623,12 +643,26 @@ class CommToolsView(LoginRequiredMixin,View):
         if 'franchise_next' in request.POST:
             form = FranchiseForm(request.POST)
             if form.is_valid():
-                form.save(commit=False)
-                if form.instance.manager is None:
-                    form.instance.manager = self.request.user
-                    form.instance.name = 'Unclaimed'
+                try:
+                    newuser = Owner.objects.get(user=form.instance.manager)
+                    teamname = newuser.teamname
+                    print('TEAMNAMEEE TRY',teamname)
+
+                except:
+                    newuser = Owner.objects.get(user=form.instance.manager)
+                    teamname = newuser.user
+                    print('TEAMNAMEEE EXCEPT',teamname)
+                
+                if Owner.objects.filter(user=form.instance.manager).values('picture'):
+                    picture = Owner.objects.filter(user=form.instance.manager).values('picture')
                 else:
-                    form.instance.name = Owner.objects.filter(user=form.instance.manager).values('teamname')
+                    picture = 'img/default_user.png'
+                new_owner = Owner(
+                    user = form.instance.manager,
+                    teamname = teamname,
+                    picture=picture,
+                    pick_spot = None,
+                )
 
                 for y in years:
                     for i in range(1,16):
@@ -641,10 +675,13 @@ class CommToolsView(LoginRequiredMixin,View):
                         )
                         new_pick.save()
                 form.save()
-                print(form.instance.manager)
+                
                 franchise_form = FranchiseForm()
                 pick_form = UpdatePickForm()
+                owners = Owner.objects.all()
+
                 context = {
+                    'owners': owners,
                     'franchise_form': franchise_form,
                     'pick_form': pick_form,
                 } 
@@ -668,8 +705,10 @@ class CommToolsView(LoginRequiredMixin,View):
 
                 franchise_form = FranchiseForm()
                 pick_form = UpdatePickForm()
-        
+                owners = Owner.objects.all()
+
                 context = {
+                    'owners': owners,
                     'franchise_form': franchise_form,
                     'pick_form': pick_form,
                 } 

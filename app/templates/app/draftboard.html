@@ -2,8 +2,9 @@
 
 {% block content %}
 
+
 <body>
-  <div style="text-align: center;margin-top: 100px;"><h3><strong>2022 NWOAFFL Draftboard</strong></h3></div>
+  <div style="text-align: center;margin-top: 100px; margin-left: 30px;"><h3><strong>2022 NWOAFFL Draftboard</strong></h3></div>
   <div class="board_container">
   {% for owner in owners %}
   {% if not owner.user.is_superuser%}
