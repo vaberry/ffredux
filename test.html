@@ -2,240 +2,125 @@
 {% load crispy_forms_tags %}
 {% block content %}
 
-<div style="width: 90vw;" id="trade-room-container">
-    {% for owner in owners %}
-    {% if owner.user == trade.trader_one %}
-    <div id="trader-one-container">
-        <table class="table table-striped table-bordered table-hover">
-            {% if owner.teamname %}
-            <tr><th style="background-color:bisque;">{{owner.teamname}}</th></tr>
-            {% else %}
-            <tr><th style="background-color:bisque;">{{owner.user}}</th></tr>
-            {% endif %}
+<style>
+	/*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+body {
+  background-color: #74EBD5;
+  background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
 
-            {% for pick in picks %}
-            {% if owner.user == pick.owner %}
-            {% if not pick in trade.trader_one_list.all%}
-            <tr>
-                <td>
-                    <div class="form-check">
-                        <form method="POST" action="{% url 'update-list' trade.pk pick.pk %}">
-                            {% csrf_token %}
-                            <input class="form-check-input" type="hidden" value={{pick.id}} name="addpick">
-                            {{pick.original_owner}}:{{pick.year}}.{{pick.round}}{% if pick.pick %}.{{pick.pick}}{% else %}{% endif %}
-                            
-                            {% if trade.trader_one_accepted != trade.trader_two_accepted or trade.trade_status == "Completed" %}
-                            <button style="background-color: transparent; border: none; box-shadow: none;" type="submit" disabled>
-                                <i class="fa-solid fa-arrow-right-long"></i>
-                            </button>
-                            {% else %}
-                            <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                                <i class="fa-solid fa-arrow-right-long"></i>
-                            </button>
-                            {% endif %}
-                        </form>
-                    </div>
-                </td>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-            </tr>
-        </table>
-    {% endif%}
-    {% endfor %}
-    </div>
+  min-height: 100vh;
+}
 
+::-webkit-scrollbar {
+  width: 5px;
+}
 
+::-webkit-scrollbar-track {
+  width: 5px;
+  background: #f5f5f5;
+}
 
-    
-    {% for owner in owners %}
-    {% if owner.user == trade.trader_two %}
-    <div id="trader-two-container">
-        <table class="table table-striped table-bordered table-hover">
-            {% if owner.teamname %}
-            <tr><th style="background-color:bisque;">{{owner.teamname}}</th></tr>
-            {% else %}
-            <tr><th style="background-color:bisque;">{{owner.user}}</th></tr>
-            {% endif %}
+::-webkit-scrollbar-thumb {
+  width: 1em;
+  background-color: #ddd;
+  outline: 1px solid slategrey;
+  border-radius: 1rem;
+}
 
-            {% for pick in picks %}
-            {% if owner.user == pick.owner %}
-            {% if not pick in trade.trader_one_list.all%}
-            <tr>
-                <td>
-                    <div class="form-check">
-                        <form method="POST" action="{% url 'update-list' trade.pk pick.pk %}">
-                            {% csrf_token %}
-                            <input class="form-check-input" type="hidden" value={{pick.id}} name="addpick">
-                            {{pick.original_owner}}:{{pick.year}}.{{pick.round}}{% if pick.pick %}.{{pick.pick}}{% else %}{% endif %}
-                            
-                            {% if trade.trader_one_accepted != trade.trader_two_accepted or trade.trade_status == "Completed" %}
-                            <button style="background-color: transparent; border: none; box-shadow: none;" type="submit" disabled>
-                                <i class="fa-solid fa-arrow-right-long"></i>
-                            </button>
-                            {% else %}
-                            <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                                <i class="fa-solid fa-arrow-right-long"></i>
-                            </button>
-                            {% endif %}
-                        </form>
-                    </div>
-                </td>
-            {% endif %}
-            {% endif %}
-            {% endfor %}
-            </tr>
-        </table>
-    {% endif%}
-    {% endfor %}
-    </div>
+.text-small {
+  font-size: 0.9rem;
+}
 
+.messages-box {
+	height: 70vh;
+  	overflow: scroll;
+}
 
+.chat-box {
+  height: 70vh;
+  overflow: scroll;
+}
 
-    <div class="trade-details-container">
-        <div>
-            <a href="{% url 'trade' %}" class="btn btn-light mb-3"><i class="fa-solid fa-arrow-left-long"></i> Back to Trade Rooms</a>
-        </div>
+.rounded-lg {
+  border-radius: 0.5rem;
+}
 
-        <div class="mb-3">
-            {% if trade.trade_status == "In Talks" %}
-            <h5 style="background-color:lightpink ;">Status: <strong>{{trade.trade_status}}</strong></h5>
-            {% elif trade.trade_status == "Proposed" %}
-            <h5 style="background-color:lightyellow ;">Status: <strong>{{trade.trade_status}}</strong></h5>
-            {% elif trade.trade_status == "Completed" %}
-            <h5 style="background-color:lightgreen ;">Status: <strong>{{trade.trade_status}}</strong></h5>
-            {% endif %}
-        </div>
+input::placeholder {
+  font-size: 0.9rem;
+  color: #999;
+}
 
-        {% for owner in owners %}
-        {% if owner.user == trade.trader_one %}
-        <table class="table table-striped table-bordered table-hover">
-            <tr><th>{{owner.teamname}} sends:</th></tr>
-            {% for pick in trade.trader_one_list.all %}
-            <tr>
-                <td>
-                    <form method="POST" action="{% url 'update-list' trade.pk pick.pk %}">
-                        {% csrf_token %}
-                        <input class="form-check-input" type="hidden" value={{pick.id}} name="removepick">
+</style>
 
-                        {% if trade.trader_one_accepted != trade.trader_two_accepted or trade.trade_status == "Completed" %}
-                        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit" disabled>
-                            <i class="fa-solid fa-arrow-left-long"></i>
-                        </button>
-                        {% else %}
-                        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                            <i class="fa-solid fa-arrow-left-long"></i>
-                        </button>
-                        {% endif %}
-                        {{pick.original_owner}}:{{pick.year}}.{{pick.round}}{% if pick.pick %}.{{pick.pick}}{% else %}{% endif %}
-                    </form>
-                </td>
-            </tr>
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %} 
-        {% endfor %}
-
-        {% for owner in owners %}
-        {% if owner.user == trade.trader_two %}
-        <table class="table table-striped table-bordered table-hover">
-            <tr><th>{{owner.teamname}} sends:</th></tr>
-            {% for pick in trade.trader_two_list.all %}
-            <tr>
-                <td>
-                    <form method="POST" action="{% url 'update-list' trade.pk pick.pk %}">
-                        {% csrf_token %}
-                        <input class="form-check-input" type="hidden" value={{pick.id}} name="removepick">
-                        {% if trade.trader_one_accepted != trade.trader_two_accepted or trade.trade_status == "Completed" %}
-                        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit" disabled>
-                            <i class="fa-solid fa-arrow-left-long"></i>
-                        </button>
-                        {% else %}
-                        <button style="background-color: transparent; border: none; box-shadow: none;" type="submit">
-                            <i class="fa-solid fa-arrow-left-long"></i>
-                        </button>
-                        {% endif %}
-                        {{pick.original_owner}}:{{pick.year}}.{{pick.round}}{% if pick.pick %}.{{pick.pick}}{% else %}{% endif %}
-                    </form>
-                </td>
-            </tr>
-            </tr>
-            {% endfor %}
-        </table>
-        {% endif %} 
-        {% endfor %}
-
-        <div style="display: inline-block;">
-                            
-
-            {% if trade.trade_status != "Completed" %}
-
-            {% if trade.trader_one == request.user %}
-            {% if trade.trader_one_accepted == False and trade.trader_two_accepted == True %}
-
-            <form method="POST" action="{% url 'trade-room' trade.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-success btn-rounded" name="accept">Accept</button>
-            </form>
-
-            {% endif %}
-            {% endif %}
-
-            {% if trade.trader_two == request.user %}
-            {% if trade.trader_two_accepted == False and trade.trader_one_accepted == True %}
-
-            <form method="POST" action="{% url 'trade-room' trade.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-success btn-rounded" name="accept">Accept</button>
-            </form>
-
-            {% endif %}
-            {% endif %}
-
-
-            {% if trade.trader_one_accepted != trade.trader_two_accepted %}
-                {% if trade.trader_one == request.user and trade.trader_one_accepted == False %}
-                <form method="POST" action="{% url 'trade-room' trade.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-rounded" name="counter">Counter</button>
-                </form>
-
-                {% elif trade.trader_two == request.user and trade.trader_two_accepted == False %}
-                <form method="POST" action="{% url 'trade-room' trade.pk %}">
-                    {% csrf_token %}
-                    <button type="submit" class="btn btn-primary btn-rounded" name="counter">Counter</button>
-                </form>
-                {% endif %}
-
-            {% else %}
-
-            <form method="POST" action="{% url 'trade-room' trade.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary btn-rounded" name="propose">Propose</button>
-            </form>
-
-            {% endif %}
-
-            {% if trade.trader_one == request.user and trade.trader_one_accepted == False %}
-            <form method="POST" action="{% url 'trade-room-delete' trade.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-rounded" name="scrap">Scrap</button>
-            </form>
-            {% endif %}
-            {% if trade.trader_two == request.user and trade.trader_two_accepted == False %}
-            <form method="POST" action="{% url 'trade-room-delete' trade.pk %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-rounded" name="scrap">Scrap</button>
-            </form>
-            {% endif %}
-
-            {% endif %}
-        </div>
-
-    </div>
-
-
-
+<div class="">
+	
+	<div class="row rounded-lg shadow">
+		
+	  <!-- Users box-->
+	
+	  <div class="px-0">
+		<div class="bg-white">
+  
+		  <div class="bg-gray px-4 py-2 bg-light">
+			<form method="POST">
+				{% csrf_token %}
+				<h4>Start a new conversation: </h4>
+				<select class="filter-selectbox" name="username">
+					{% for user in users %}
+					{% if not user.is_superuser %}
+					{% if not user == request.user %}
+					<option value={{user}}>{{user}}</option>
+					{% endif %}
+					{% endif %}
+					{% endfor %}
+				</select>
+				<input type="submit" value="Start talks">
+			</form>
+			<p class="h5 mb-0 py-1">Chats</p>
+		  </div>
+  
+		  <div class="messages-box">
+			<div class="list-group rounded-0">
+				{% for thread in threads.all %}
+			  <a class="list-group-item list-group-item-action">
+				{% if thread.user == request.user %}
+				<div class="media"><img src="{{ thread.receiver.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
+				{% else %}
+				<div class="media"><img src="{{ thread.user.profile.picture.url }}" alt="user" width="50" class="rounded-circle">
+				{% endif %}
+				  <div class="media-body ml-4">
+					<div class="d-flex align-items-center justify-content-between mb-1">
+					  <h6 class="mb-0">
+						<form method="GET" action="{% url 'thread' thread.pk%}">
+							{% if thread.user == request.user %}
+							<button type="submit" class="btn btn secondary">@{{ thread.receiver }}</button>
+							{% else %}
+							<button type="submit" class="btn btn secondary">@{{ thread.user }}</button>
+							{% endif %}
+						</form>
+					  </h6>
+					  <!-- <small class="small font-weight-bold">25 Dec</small> -->
+					</div>
+					<!-- <p class="font-italic mb-0 text-small">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.</p> -->
+				  </div>
+				</div>
+			  </a>
+			  {% endfor %}
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  </div>
+	</div>
 </div>
-{% endblock content %}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>$('.chat-box-scroll').scrollTop($('.chat-box-scroll')[0].scrollHeight);</script>
+  
+{% endblock content%}

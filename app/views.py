@@ -24,8 +24,10 @@ class Test(LoginRequiredMixin,View):
         posts = Post.objects.filter(author=user).order_by('-created_on')
         picks = Pick.objects.all().order_by('year','round','pick')
         trades = Trade.objects.all().order_by('-trade_date')
+        owners = Owner.objects.all()
 
         context = {
+            'owners':owners,
             'user': user,
             'profile': profile,
             'posts': posts,
@@ -33,6 +35,17 @@ class Test(LoginRequiredMixin,View):
         }
 
         return render(request, 'app/test.html', context)
+
+class Notifications(LoginRequiredMixin,View):
+    def get(self,request,*args,**kwargs):
+        owners = Owner.objects.all()
+        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
+        context = {
+            'owners':owners,
+            'notifications': notifications,
+        }
+
+        return render(request, 'app/notifications.html', context)
 
 class Landing(View):
     def dispatch(self, request,*args, **kwargs):
@@ -48,6 +61,7 @@ class Home(LoginRequiredMixin,View):
         owners = Owner.objects.all().order_by('teamname')
         form = PostForm()
         posts = Post.objects.all().order_by('-created_on')
+        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
         
         p = Paginator(posts,10)
         page_num = request.GET.get('page',1)
@@ -57,6 +71,7 @@ class Home(LoginRequiredMixin,View):
             page = p.page(1)
 
         context = {
+            'notifications': notifications,
             'owners' : owners,
             'all' : posts,
             'last_page' : p.num_pages,
@@ -561,6 +576,7 @@ class ThreadView(LoginRequiredMixin,View):
 
 class CreateMessage(LoginRequiredMixin,View):
     def post(self, request, pk, *args, **kwargs):
+        print('hitting post')
         thread = ThreadModel.objects.get(pk=pk)
         if thread.receiver == request.user:
             receiver = thread.user
@@ -610,21 +626,21 @@ class TradeNotification(LoginRequiredMixin,View):
         return redirect('trade-room', pk=trade_pk)
 
 class RemoveNotification(LoginRequiredMixin,View):
-    def delete(self, request, notification_pk, *args, **kwargs):
+    def get(self, request, notification_pk, *args, **kwargs):
         notification = Notification.objects.get(pk=notification_pk)
 
         notification.user_has_seen = True
         notification.save()
+    
+        return render(request,'app/notifications.html')
 
-        return HttpResponse('Success', content_type='text/plain')
-
-class ClearNotifications(LoginRequiredMixin,View):
-    def post(self,request,*args,**kwargs):
-        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
-        for notification in notifications:
-            notification.user_has_seen = True
-            notification.save()
-        return redirect('home')
+# class ClearNotifications(LoginRequiredMixin,View):
+#     def post(self,request,*args,**kwargs):
+#         notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
+#         for notification in notifications:
+#             notification.user_has_seen = True
+#             notification.save()
+#         return redirect('home')
 
 class CommToolsView(LoginRequiredMixin,View):
     def get(self, request, *args, **kwargs):

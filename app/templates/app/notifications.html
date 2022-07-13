@@ -1,0 +1,73 @@
+{% extends 'app/main.html' %}
+
+{% block content %}
+
+<table class="table table-striped table-bordered table-hover">
+    <tr><th>Notifications</th></tr>
+
+    {% for notification in notifications %}
+    {% if not notification.user_has_seen %}
+    <tr>
+        <td>
+            <div class="form-check">
+                {% if notification.post %}
+                    {% if notification.notification_type == 1 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'post-notification' notification.pk notification.post.pk %}" style="text-decoration: none;">@{{ notification.from_user }} liked your post</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% elif notification.notification_type == 2 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'post-notification' notification.pk notification.post.pk %}">@{{ notification.from_user }} commented on your post</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% endif %}
+
+                {% elif notification.comment %}
+                    {% if notification.notification_type == 1 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'post-notification' notification.pk notification.comment.post.pk %}">@{{ notification.from_user }} liked your comment</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% elif notification.notification_type == 2 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'post-notification' notification.pk notification.comment.post.pk %}">@{{ notification.from_user }} replied to your comment</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% endif %}
+    
+                {% elif notification.thread %}
+                    {% if notification.notification_type == 3 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'message-notification' notification.pk %}">@{{ notification.from_user }} has messaged you</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% endif %}
+    
+                {% elif notification.trade %}
+                    {% if notification.notification_type == 4 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'trade-notification' notification.pk notification.trade.pk %}">@{{ notification.from_user }} has proposed a trade</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% elif notification.notification_type == 5 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'trade-notification' notification.pk notification.trade.pk %}">@{{ notification.from_user }} has countered your trade</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% elif notification.notification_type == 6 %}
+                    <div class="dropdown-item-parent">
+                        <a style="text-decoration: none;" href="{% url 'trade-notification' notification.pk notification.trade.pk %}">@{{ notification.from_user }} has accepted your trade</a>
+                        <form style="display: inline-block;" method="GET" action="{% url 'notification-delete' notification.pk %}"><button style="color: red; margin-left:15px" id="action-button" type="submit">&times;</button></form>
+                    </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+
+
+{% endblock content %}

@@ -27,11 +27,12 @@ from .views import (
     ThreadView,
     CreateMessage,
 
+    Notifications,
     PostNotification,
     MessageNotification,
     TradeNotification,
     RemoveNotification,
-    ClearNotifications,
+    # ClearNotifications,
 
     CommToolsView,
     )
@@ -69,11 +70,12 @@ urlpatterns = [
     path('inbox/<int:pk>/create-message/', CreateMessage.as_view(), name='create-message'),
 
 
+    path('notification/',Notifications.as_view(),name='all-notifications'),
     path('notification/<int:notification_pk>/post/<int:post_pk>', PostNotification.as_view(), name='post-notification'),
     path('notification/<int:notification_pk>/inbox/', MessageNotification.as_view(), name='message-notification'),
     path('notification/<int:notification_pk>/trade/traderoom/<int:trade_pk>', TradeNotification.as_view(), name='trade-notification'),
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification-delete'),
-    path('notification/clear/', ClearNotifications.as_view(), name='clear-notifications'),
+    # path('notification/clear/', ClearNotifications.as_view(), name='clear-notifications'),
 
     path('commtools/',CommToolsView.as_view(), name='comm-tools'),
 

@@ -707,19 +707,13 @@ background:#eee;
               <li>
                 <a href="#tab1" data-toggle="tab">Activity</a>
               </li>
-              <!-- <li>
-                <a href="#tab1" data-toggle="tab">Social</a>
-              </li>
-              <li>
-                <a href="#tab1" data-toggle="tab">Media</a>
-              </li> -->
             </ul>
             <div class="tab-content p30" style="height: 730px;">
               <div id="tab1">
               {% for post in posts %}
               {% if profile.user == post.author %}
   
-  
+                <!-- {{post}} -->
                 <h5 class="m"><img class="rounded-circle" src="{{ profile.picture.url }}" width="50" height="50" alt="...">
                   @{{ profile.user }}
                   <small> {{ post.created_on}} </small>
