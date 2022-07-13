@@ -11,7 +11,7 @@
   <div class="column_container">
     <div class="team_item">
         {{owner.teamname}}
-        <a class="collapse-item" href="{% url 'profile' request.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
+        <a class="collapse-item" href="{% url 'profile' owner.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
     </div>
     <div class="row_container">
       {% for pick in picks %}
