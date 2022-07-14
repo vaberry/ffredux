@@ -56,6 +56,7 @@ class Notifications(LoginRequiredMixin,View):
         }
 
         return render(request, 'app/notifications.html', context)
+
 class Landing(View):
     def dispatch(self, request,*args, **kwargs):
         if request.user.is_authenticated:
@@ -640,8 +641,24 @@ class RemoveNotification(LoginRequiredMixin,View):
 
         notification.user_has_seen = True
         notification.save()
+        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
+        context = {
+            'notifications': notifications,
+        }
     
-        return render(request,'app/notifications.html')
+        return render(request,'app/notifications.html',context)
+    
+    def post(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+
+        notification.user_has_seen = True
+        notification.save()
+        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
+        context = {
+            'notifications': notifications,
+        }
+    
+        return render(request,'app/notifications.html',context)
 
 # class ClearNotifications(LoginRequiredMixin,View):
 #     def post(self,request,*args,**kwargs):
