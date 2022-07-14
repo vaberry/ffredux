@@ -60,7 +60,9 @@
             <select class="filter-selectbox" name="partner">
                 {% for user in users %}
                 {% if not user == request.user %}
+                {% if not user.is_superuser %}
                 <option value={{user}}>{{user}}</option>
+                {% endif %}
                 {% endif %}
                 {% endfor %}
             </select>
