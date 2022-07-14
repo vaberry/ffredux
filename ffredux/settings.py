@@ -181,6 +181,8 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 AWS_S3_REGION_NAME='us-west-1'
 
+
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ffredux/static'),
 ]
