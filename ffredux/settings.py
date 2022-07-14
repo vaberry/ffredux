@@ -181,7 +181,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 # AUTH_USER_MODEL = 'account.Account'
 # AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
 # AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
-
+AWS_ACCESS_KEY_ID='W24SRQJ5EUYFNFES7YGC'
+AWS_SECRET_ACCESS_KEY='8e8/L20CKD0S614xUar0PWtTTnaRh0/lrqeYdmfxpYM'
 AWS_STORAGE_BUCKET_NAME = 'ff-nwoaffl'
 AWS_S3_ENDPOINT_URL = 'https://sfo3.digitaloceanspaces.com'
 AWS_S3_OBJECT_PARAMETERS = {
@@ -197,7 +198,7 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_ENDPOINT_URL, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE= 'storages.backends.s3boto3.S3Boto3Storage'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
