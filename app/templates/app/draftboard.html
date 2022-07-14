@@ -2,9 +2,15 @@
 
 {% block content %}
 
+<style>
+  .board_container {
+    min-width: 100%;
+    max-height: 70vh;
+    overflow: scroll;
+  }
+</style>
 
 <body>
-  <div style="text-align: center;margin-top: 100px; margin-left: 30px;"><h3><strong>2022 NWOAFFL Draftboard</strong></h3></div>
   <div class="board_container">
   {% for owner in owners %}
   {% if not owner.user.is_superuser%}
@@ -13,7 +19,7 @@
         {{owner.teamname}}
         <a class="collapse-item" href="{% url 'profile' owner.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
     </div>
-    <div class="row_container">
+    <div id="owner-row" class="row_container">
       {% for pick in picks %}
       {% if pick.original_owner == owner.user and pick.year == 2022 %}
         <div class="pick_item">

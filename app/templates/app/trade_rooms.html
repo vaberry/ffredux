@@ -180,7 +180,7 @@
         {% if trade.trader_one == request.user %}
         {% if trade.trader_one_accepted == False and trade.trader_two_accepted == True %}
 
-        <form method="POST" action="{% url 'trade-room' trade.pk %}">
+        <form style="display: inline-block;" method="POST" action="{% url 'trade-room' trade.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-success btn-rounded" name="accept">Accept</button>
         </form>
@@ -191,7 +191,7 @@
         {% if trade.trader_two == request.user %}
         {% if trade.trader_two_accepted == False and trade.trader_one_accepted == True %}
 
-        <form method="POST" action="{% url 'trade-room' trade.pk %}">
+        <form style="display: inline-block;" method="POST" action="{% url 'trade-room' trade.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-success btn-rounded" name="accept">Accept</button>
         </form>
@@ -202,13 +202,13 @@
 
         {% if trade.trader_one_accepted != trade.trader_two_accepted %}
             {% if trade.trader_one == request.user and trade.trader_one_accepted == False %}
-            <form method="POST" action="{% url 'trade-room' trade.pk %}">
+            <form style="display: inline-block;" method="POST" action="{% url 'trade-room' trade.pk %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-rounded" name="counter">Counter</button>
             </form>
 
             {% elif trade.trader_two == request.user and trade.trader_two_accepted == False %}
-            <form method="POST" action="{% url 'trade-room' trade.pk %}">
+            <form style="display: inline-block;" method="POST" action="{% url 'trade-room' trade.pk %}">
                 {% csrf_token %}
                 <button type="submit" class="btn btn-primary btn-rounded" name="counter">Counter</button>
             </form>
@@ -216,7 +216,7 @@
 
         {% else %}
 
-        <form method="POST" action="{% url 'trade-room' trade.pk %}">
+        <form style="display: inline-block;" method="POST" action="{% url 'trade-room' trade.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-primary btn-rounded" name="propose">Propose</button>
         </form>
@@ -224,13 +224,13 @@
         {% endif %}
 
         {% if trade.trader_one == request.user and trade.trader_one_accepted == False %}
-        <form method="POST" action="{% url 'trade-room-delete' trade.pk %}">
+        <form style="display: inline-block;" method="POST" action="{% url 'trade-room-delete' trade.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger btn-rounded" name="scrap">Scrap</button>
         </form>
         {% endif %}
         {% if trade.trader_two == request.user and trade.trader_two_accepted == False %}
-        <form method="POST" action="{% url 'trade-room-delete' trade.pk %}">
+        <form style="display: inline-block;" method="POST" action="{% url 'trade-room-delete' trade.pk %}">
             {% csrf_token %}
             <button type="submit" class="btn btn-danger btn-rounded" name="scrap">Scrap</button>
         </form>
