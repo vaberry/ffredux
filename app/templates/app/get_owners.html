@@ -1,5 +1,5 @@
 {% for owner in owners %}
-{% if not owner.is_superuser %}
+{% if not owner.user.is_superuser %}
   <a class="collapse-item" href="{% url 'profile' owner.user.pk %}"><img src="{{ owner.picture.url }}" class="rounded-circle" height="20" width="20"/> {{ owner.teamname | truncatechars:20}}</a>
 {% endif%}
 {% endfor %}
