@@ -47,6 +47,15 @@ class Notifications(LoginRequiredMixin,View):
 
         return render(request, 'app/notifications.html', context)
 
+    def post(self,request,*args,**kwargs):
+        owners = Owner.objects.all()
+        notifications = Notification.objects.filter(to_user=request.user).exclude(user_has_seen=True).order_by('-date')
+        context = {
+            'owners':owners,
+            'notifications': notifications,
+        }
+
+        return render(request, 'app/notifications.html', context)
 class Landing(View):
     def dispatch(self, request,*args, **kwargs):
         if request.user.is_authenticated:
