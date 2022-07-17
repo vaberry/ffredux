@@ -16,8 +16,8 @@
   {% if not owner.user.is_superuser%}
   <div class="column_container">
     <div class="team_item">
+      <a class="collapse-item" href="{% url 'profile' owner.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
         {{owner.teamname}}
-        <a class="collapse-item" href="{% url 'profile' owner.user.pk %}" style="font-size: large;"><img src="{{ owner.picture.url }}" class="rounded-circle" height="50" width="50"/></a>
     </div>
     <div id="owner-row" class="row_container">
       {% for pick in picks %}
